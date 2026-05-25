@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERN Stack Interview Preparation - Complete Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+        .search-highlight {
+            background: yellow;
+            padding: 0 2px;
+        }
+        .sticky-nav {
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.9);
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+        @media print {
+            .no-print { display: none; }
+            .card { break-inside: avoid; page-break-inside: avoid; }
+        }
+        .status-code-1xx { border-left: 4px solid #3498db; }
+        .status-code-2xx { border-left: 4px solid #2ecc71; }
+        .status-code-3xx { border-left: 4px solid #f39c12; }
+        .status-code-4xx { border-left: 4px solid #e74c3c; }
+        .status-code-5xx { border-left: 4px solid #9b59b6; }
+        .topic-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+        .hook-badge {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+            margin-top: 4px;
+            display: inline-block;
+        }
+        .promise-badge {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+            margin-top: 4px;
+            display: inline-block;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky-nav fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                        M
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">MERN Interview Prep</h1>
+                        <p class="text-xs text-gray-500">Complete Study Material</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <button onclick="filterCategory('all')" class="nav-btn text-sm font-medium text-gray-600 hover:text-blue-600 transition">All</button>
+                    <button onclick="filterCategory('react')" class="nav-btn text-sm font-medium text-gray-600 hover:text-blue-600 transition">React</button>
+                    <button onclick="filterCategory('backend')" class="nav-btn text-sm font-medium text-gray-600 hover:text-green-600 transition">Backend</button>
+                    <button onclick="filterCategory('database')" class="nav-btn text-sm font-medium text-gray-600 hover:text-green-500 transition">Database</button>
+                    <button onclick="filterCategory('javascript')" class="nav-btn text-sm font-medium text-gray-600 hover:text-yellow-600 transition">JavaScript</button>
+                    <button onclick="filterCategory('http')" class="nav-btn text-sm font-medium text-gray-600 hover:text-red-500 transition">HTTP</button>
+                    <button onclick="filterCategory('general')" class="nav-btn text-sm font-medium text-gray-600 hover:text-purple-600 transition">General</button>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search topics..." 
+                            class="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-48 md:w-64 transition-all">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                    <button onclick="window.print()" class="no-print p-2 text-gray-600 hover:text-blue-600 transition" title="Print">
+                        <i class="fas fa-print"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="pt-24 pb-12 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        MERN Stack Interview
+                    </span>
+                    <br>Preparation Guide
+                </h1>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+                    Complete study material covering React.js, Node.js, Express.js, MongoDB, JavaScript fundamentals, 
+                    HTTP status codes, React Hooks (all types), Promise methods (all types), and essential interview concepts.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300">
+                        <i class="fab fa-react mr-2"></i>React.js
+                    </span>
+                    <span class="px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full text-green-300">
+                        <i class="fab fa-node mr-2"></i>Node.js
+                    </span>
+                    <span class="px-4 py-2 bg-gray-500/20 border border-gray-500/30 rounded-full text-gray-300">
+                        Express.js
+                    </span>
+                    <span class="px-4 py-2 bg-green-600/20 border border-green-600/30 rounded-full text-green-400">
+                        <i class="fas fa-database mr-2"></i>MongoDB
+                    </span>
+                    <span class="px-4 py-2 bg-yellow-500/20 border border-yellow-500/30 rounded-full text-yellow-300">
+                        <i class="fab fa-js mr-2"></i>JavaScript
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="bg-white border-b border-gray-200 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-blue-600" id="totalTopics">0</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">Total Topics</div>
+                </div>
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-green-600" id="totalQuestions">0</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">Q&A Items</div>
+                </div>
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-purple-600">40+</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">HTTP Codes</div>
+                </div>
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-orange-600">6</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">Categories</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- React Section -->
+        <section id="react" class="mb-12 category-section" data-category="react">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-blue-100 text-blue-600 mr-4">
+                    <i class="fab fa-react text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">React.js Concepts & All Hooks</h2>
+                    <p class="text-sm text-gray-500">Complete React Hooks reference: Basic, Advanced, and React 18+</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="react-grid"></div>
+        </section>
+
+        <!-- Backend Section -->
+        <section id="backend" class="mb-12 category-section" data-category="backend">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-green-100 text-green-600 mr-4">
+                    <i class="fab fa-node text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Backend Development</h2>
+                    <p class="text-sm text-gray-500">Node.js, Express.js & Server-side concepts</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="backend-grid"></div>
+        </section>
+
+        <!-- Database Section -->
+        <section id="database" class="mb-12 category-section" data-category="database">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-green-100 text-green-700 mr-4">
+                    <i class="fas fa-database text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Database & ODM</h2>
+                    <p class="text-sm text-gray-500">MongoDB, Mongoose & Data Management</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="database-grid"></div>
+        </section>
+
+        <!-- JavaScript Section -->
+        <section id="javascript" class="mb-12 category-section" data-category="javascript">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-yellow-100 text-yellow-700 mr-4">
+                    <i class="fab fa-js text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">JavaScript Fundamentals & All Promise Methods</h2>
+                    <p class="text-sm text-gray-500">Core JS concepts, Async programming, Promises (all types), & Variables</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="javascript-grid"></div>
+        </section>
+
+        <!-- HTTP Status Codes Section -->
+        <section id="http" class="mb-12 category-section" data-category="http">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-red-100 text-red-600 mr-4">
+                    <i class="fas fa-server text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">HTTP Status Codes</h2>
+                    <p class="text-sm text-gray-500">Complete reference of HTTP response codes</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="http-grid"></div>
+        </section>
+
+        <!-- General Section -->
+        <section id="general" class="mb-12 category-section" data-category="general">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-purple-100 text-purple-600 mr-4">
+                    <i class="fas fa-brain text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">General Concepts</h2>
+                    <p class="text-sm text-gray-500">Authentication, APIs, CORS & Interview Tips</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="general-grid"></div>
+        </section>
+
+        <!-- Interview Tip Box -->
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 mb-12">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                        <i class="fas fa-lightbulb text-xl"></i>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Interview Fallback Response</h3>
+                    <p class="text-gray-700 italic bg-white/60 p-4 rounded-lg border-l-4 border-orange-400">
+                        "I have a basic understanding of this concept, but I have not used it deeply in a real project yet. 
+                        I am currently learning it and I can improve quickly with practical work."
+                    </p>
+                    <p class="text-sm text-gray-500 mt-2">Use this when you're unsure about a question during the interview.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-bold">MERN Interview Preparation</h3>
+                    <p class="text-sm text-gray-400">Complete study material for MERN stack developers</p>
+                </div>
+                <div class="flex space-x-4 text-sm text-gray-400">
+                    <span><i class="fas fa-calendar mr-2"></i>May 2026</span>
+                    <span><i class="fas fa-user mr-2"></i>Vivek Nagariya</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+        class="no-print fixed bottom-6 right-6 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition flex items-center justify-center z-50"
+        id="scrollTopBtn" style="display: none;">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+
+        // Data Structure
+        const topics = {
+            react: [
+                {
+                    title: "What is React?",
+                    icon: "fa-react",
+                    color: "blue",
+                    content: "React.js is a JavaScript library used to build fast, interactive, and reusable user interfaces. It follows a component-based architecture, which makes the application easy to manage and maintain.",
+                    tags: ["Library", "UI", "Components"],
+                    code: `import React from 'react';
+
+function App() {
+  return <h1>Hello React!</h1>;
+}`
+                },
+                {
+                    title: "Components",
+                    icon: "fa-cubes",
+                    color: "blue",
+                    content: "Components are reusable building blocks of a React application. They help divide the UI into smaller independent parts, which improves code reusability and maintainability.",
+                    tags: ["Reusable", "Modular", "UI Blocks"],
+                    code: `// Functional Component
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+// Usage
+<Welcome name="Vivek" />`
+                },
+                {
+                    title: "Props",
+                    icon: "fa-arrow-right",
+                    color: "blue",
+                    content: "Props are used to pass data from one component to another, usually from parent to child. Props are read-only and cannot be modified directly by the child component.",
+                    tags: ["Data Passing", "Read-only", "Parent-Child"],
+                    code: `function Greeting({ name, age }) {
+  return (
+    <div>
+      <p>Name: {name}</p>
+      <p>Age: {age}</p>
+    </div>
+  );
+}`
+                },
+                {
+                    title: "State",
+                    icon: "fa-sync",
+                    color: "blue",
+                    content: "State is used to manage dynamic data inside a component. Whenever state changes, React re-renders the component and updates the UI automatically.",
+                    tags: ["Dynamic Data", "Re-render", "Local"],
+                    code: `const [count, setCount] = useState(0);
+
+// Update state
+setCount(count + 1);`
+                },
+                {
+                    title: "useState Hook",
+                    icon: "fa-bolt",
+                    color: "blue",
+                    content: "useState is a React Hook used to create and update state in functional components. It returns an array with the current state value and a function to update it.",
+                    tags: ["Hook", "State Management", "Functional"],
+                    code: `import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Count: {count}
+    </button>
+  );
+}`,
+                    badge: "Basic"
+                },
+                {
+                    title: "useEffect Hook",
+                    icon: "fa-clock",
+                    color: "blue",
+                    content: "useEffect is a React Hook used to perform side effects in functional components. It is commonly used for API calls, subscriptions, timers, and updating the DOM after rendering.",
+                    tags: ["Side Effects", "Lifecycle", "API Calls"],
+                    code: `import { useEffect } from 'react';
+
+useEffect(() => {
+  // Side effect logic
+  fetchData();
+  
+  // Cleanup function
+  return () => {
+    console.log('Component unmounted');
+  };
+}, [dependency]); // Empty array = run once`,
+                    badge: "Basic"
+                },
+                {
+                    title: "useContext Hook",
+                    icon: "fa-share-alt",
+                    color: "blue",
+                    content: "useContext lets you read and subscribe to context from your component. It solves prop-drilling by allowing data to be passed through the component tree without having to pass props down manually at every level.",
+                    tags: ["Context", "Prop Drilling", "Global State"],
+                    code: `const ThemeContext = createContext('light');
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+
+function Toolbar() {
+  const theme = useContext(ThemeContext);
+  return <button className={theme}>Theme: {theme}</button>;
+}`,
+                    badge: "Basic"
+                },
+                {
+                    title: "useReducer Hook",
+                    icon: "fa-cogs",
+                    color: "blue",
+                    content: "useReducer is usually preferable to useState when you have complex state logic that involves multiple sub-values or when the next state depends on the previous one. It's like a Redux-style reducer but built into React.",
+                    tags: ["Complex State", "Reducer", "State Machine"],
+                    code: `const [state, dispatch] = useReducer(reducer, initialState);
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+// Usage
+dispatch({ type: 'increment' });`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "useCallback Hook",
+                    icon: "fa-memory",
+                    color: "blue",
+                    content: "useCallback returns a memoized callback function. It only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.",
+                    tags: ["Memoization", "Performance", "Optimization"],
+                    code: `const memoizedCallback = useCallback(
+  () => {
+    doSomething(a, b);
+  },
+  [a, b],
+);
+
+// Usage with child component
+<ExpensiveChild onClick={memoizedCallback} />`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "useMemo Hook",
+                    icon: "fa-calculator",
+                    color: "blue",
+                    content: "useMemo returns a memoized value. It only recalculates the value when one of the dependencies has changed. This optimization helps to avoid expensive calculations on every render.",
+                    tags: ["Memoization", "Performance", "Expensive Calc"],
+                    code: `const memoizedValue = useMemo(
+  () => computeExpensiveValue(a, b),
+  [a, b],
+);
+
+// Example: Sorting large array
+const sortedData = useMemo(
+  () => [...data].sort((a, b) => b.score - a.score),
+  [data]
+);`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "useRef Hook",
+                    icon: "fa-anchor",
+                    color: "blue",
+                    content: "useRef returns a mutable ref object whose .current property is initialized to the passed argument. The returned object will persist for the full lifetime of the component. Commonly used to access DOM elements directly or store mutable values without causing re-renders.",
+                    tags: ["DOM Access", "Mutable", "No Re-render"],
+                    code: `const inputRef = useRef(null);
+const renderCount = useRef(0);
+
+// DOM access
+<input ref={inputRef} />
+<button onClick={() => inputRef.current.focus()}>
+  Focus
+</button>
+
+// Mutable value
+renderCount.current += 1;`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "useLayoutEffect Hook",
+                    icon: "fa-paint-brush",
+                    color: "blue",
+                    content: "useLayoutEffect is identical to useEffect, but it fires synchronously after all DOM mutations. Use this to read layout from the DOM and synchronously re-render. Updates scheduled inside useLayoutEffect will be flushed synchronously, before the browser has a chance to paint.",
+                    tags: ["Synchronous", "DOM Layout", "Paint"],
+                    code: `useLayoutEffect(() => {
+  // Measure DOM node
+  const { width } = ref.current.getBoundingClientRect();
+  setWidth(width);
+}, []);
+
+// Runs BEFORE browser paint
+// Use when you need to measure DOM before visual update`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "useImperativeHandle Hook",
+                    icon: "fa-hand-pointer",
+                    color: "blue",
+                    content: "useImperativeHandle customizes the instance value that is exposed when parent components use ref. It should be used with forwardRef to expose specific methods or properties to parent components instead of the entire DOM node.",
+                    tags: ["Ref Forwarding", "Custom API", "Parent Control"],
+                    code: `const FancyInput = forwardRef((props, ref) => {
+  const inputRef = useRef();
+  
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current.focus(),
+    clear: () => inputRef.current.value = '',
+  }));
+  
+  return <input ref={inputRef} {...props} />;
+});
+
+// Parent usage
+const inputRef = useRef();
+<FancyInput ref={inputRef} />
+inputRef.current.focus();`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "useId Hook",
+                    icon: "fa-fingerprint",
+                    color: "blue",
+                    content: "useId is a React Hook for generating unique IDs that are stable across the server and client, while avoiding hydration mismatches. It is useful for accessibility attributes that require unique IDs.",
+                    tags: ["Unique ID", "Accessibility", "SSR Safe"],
+                    code: `const id = useId();
+
+return (
+  <div>
+    <label htmlFor={id}>Name:</label>
+    <input id={id} type="text" />
+  </div>
+);
+
+// Generates: ":r0:", ":r1:" etc.`,
+                    badge: "React 18+"
+                },
+                {
+                    title: "useTransition Hook",
+                    icon: "fa-spinner",
+                    color: "blue",
+                    content: "useTransition lets you update the state without blocking the UI. It returns a boolean value indicating whether the transition is pending and a function to start the transition. The state update inside startTransition is marked as non-urgent.",
+                    tags: ["Concurrent", "Non-blocking", "Priority"],
+                    code: `const [isPending, startTransition] = useTransition();
+const [count, setCount] = useState(0);
+
+function handleClick() {
+  startTransition(() => {
+    setCount(count + 1);
+  });
+}
+
+return (
+  <div>
+    {isPending && <Spinner />}
+    <button onClick={handleClick}>{count}</button>
+  </div>
+);`,
+                    badge: "React 18+"
+                },
+                {
+                    title: "useDeferredValue Hook",
+                    icon: "fa-hourglass-half",
+                    color: "blue",
+                    content: "useDeferredValue lets you defer updating a part of the UI. It is useful when you want to keep the UI responsive during a re-render, such as when typing in a search box that filters a large list.",
+                    tags: ["Defer", "Responsive", "Search"],
+                    code: `const [text, setText] = useState('');
+const deferredText = useDeferredValue(text);
+
+// text updates immediately (input)
+// deferredText updates after urgent renders
+return (
+  <>
+    <input value={text} onChange={e => setText(e.target.value)} />
+    <SlowList text={deferredText} />
+  </>
+);`,
+                    badge: "React 18+"
+                },
+                {
+                    title: "useSyncExternalStore Hook",
+                    icon: "fa-plug",
+                    color: "blue",
+                    content: "useSyncExternalStore lets you subscribe to an external store in a way that's compatible with concurrent rendering. It is recommended for reading values from external data sources during rendering.",
+                    tags: ["External Store", "Concurrent", "Subscription"],
+                    code: `const state = useSyncExternalStore(
+  store.subscribe,
+  store.getSnapshot,
+  store.getServerSnapshot
+);
+
+// Used by libraries like Redux, Zustand
+// to integrate with React's concurrent features`,
+                    badge: "React 18+"
+                },
+                {
+                    title: "useInsertionEffect Hook",
+                    icon: "fa-magic",
+                    color: "blue",
+                    content: "useInsertionEffect fires synchronously before all DOM mutations. It is used by CSS-in-JS libraries to inject styles during render. It is similar to useLayoutEffect but fires before DOM mutations, allowing styles to be inserted before the browser calculates styles.",
+                    tags: ["CSS-in-JS", "Style Injection", "Before Paint"],
+                    code: `useInsertionEffect(() => {
+  // Inject CSS rule
+  const style = document.createElement('style');
+  style.textContent = getDynamicStyles(props);
+  document.head.appendChild(style);
+  
+  return () => document.head.removeChild(style);
+}, [props]);`,
+                    badge: "React 18+"
+                },
+                {
+                    title: "useDebugValue Hook",
+                    icon: "fa-bug",
+                    color: "blue",
+                    content: "useDebugValue can be used to display a label for custom hooks in React DevTools. It is useful for debugging custom hooks by providing meaningful information about the hook's state.",
+                    tags: ["DevTools", "Debugging", "Custom Hooks"],
+                    code: `function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+  
+  useDebugValue(isOnline ? 'Online' : 'Offline');
+  
+  // ... logic
+  return isOnline;
+}
+
+// Shows in DevTools: useFriendStatus: "Online"`,
+                    badge: "Advanced"
+                },
+                {
+                    title: "React Router",
+                    icon: "fa-route",
+                    color: "blue",
+                    content: "React Router is used for navigation in React single-page applications. It allows us to create different routes like login, register, dashboard, profile, and admin pages without reloading the browser.",
+                    tags: ["Navigation", "SPA", "Routing"],
+                    code: `import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/dashboard" element={<Dashboard />} />
+  </Routes>
+</BrowserRouter>`
+                },
+                {
+                    title: "JSX",
+                    icon: "fa-code",
+                    color: "blue",
+                    content: "JSX allows us to write HTML-like code inside JavaScript. React uses JSX to create UI elements in a more readable and intuitive way.",
+                    tags: ["Syntax", "HTML in JS", "Template"],
+                    code: `const element = (
+  <div className="container">
+    <h1>Hello World</h1>
+    <p>Welcome to React</p>
+  </div>
+);`
+                },
+                {
+                    title: "Virtual DOM",
+                    icon: "fa-layer-group",
+                    color: "blue",
+                    content: "Virtual DOM is a lightweight copy of the real DOM. React first updates Virtual DOM, compares changes (diffing), and updates only the required part of real DOM. This makes React fast and efficient.",
+                    tags: ["Performance", "Diffing", "Optimization"],
+                    code: `// React internally:
+// 1. Creates Virtual DOM
+// 2. Compares with previous Virtual DOM
+// 3. Updates only changed elements in Real DOM`
+                },
+                {
+                    title: "Recharts",
+                    icon: "fa-chart-bar",
+                    color: "blue",
+                    content: "Recharts is a charting library for React. It is used to create visual dashboards using charts like bar chart, line chart, pie chart, and area chart.",
+                    tags: ["Charts", "Visualization", "Dashboard"],
+                    code: `import { BarChart, Bar, XAxis, YAxis } from 'recharts';
+
+<BarChart width={600} height={300} data={data}>
+  <XAxis dataKey="name" />
+  <YAxis />
+  <Bar dataKey="value" fill="#8884d8" />
+</BarChart>`
+                }
+            ],
+
+            backend: [
+                {
+                    title: "Node.js",
+                    icon: "fa-node",
+                    color: "green",
+                    content: "Node.js is a JavaScript runtime environment that allows us to run JavaScript on the server side. In MERN Stack, Node.js is used to build backend logic, handle API requests, connect with databases, and manage authentication.",
+                    tags: ["Runtime", "Server-side", "JavaScript"],
+                    code: `// server.js
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.end('Hello from Node.js!');
+});
+
+server.listen(3000);`
+                },
+                {
+                    title: "Express.js",
+                    icon: "fa-server",
+                    color: "green",
+                    content: "Express.js is a lightweight backend framework for Node.js. It is used to create REST APIs, define routes, use middleware, handle requests and responses, and manage backend application structure.",
+                    tags: ["Framework", "REST API", "Middleware"],
+                    code: `const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello World' });
+});
+
+app.listen(5000);`
+                },
+                {
+                    title: "Routes",
+                    icon: "fa-map-signs",
+                    color: "green",
+                    content: "Routes define API endpoints in Express.js. Each route handles a specific request from the client, such as fetching users, adding expenses, updating appointments, or deleting records.",
+                    tags: ["Endpoints", "API", "CRUD"],
+                    code: `// User Routes
+app.get('/api/users', getAllUsers);
+app.post('/api/users', createUser);
+app.put('/api/users/:id', updateUser);
+app.delete('/api/users/:id', deleteUser);`
+                },
+                {
+                    title: "Middleware",
+                    icon: "fa-filter",
+                    color: "green",
+                    content: "Middleware is a function that runs between the request and response cycle. It can be used for authentication, logging, validation, parsing JSON data, handling errors, and checking user roles.",
+                    tags: ["Request/Response", "Auth", "Validation"],
+                    code: `// Custom Middleware
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+};
+
+app.use('/api/protected', authMiddleware);`
+                },
+                {
+                    title: "REST API",
+                    icon: "fa-exchange-alt",
+                    color: "green",
+                    content: "REST API is an architectural style used for communication between frontend and backend. It uses HTTP methods like GET, POST, PUT, PATCH, and DELETE to perform CRUD operations.",
+                    tags: ["Architecture", "HTTP Methods", "CRUD"],
+                    code: `GET    /api/users      → Read all users
+POST   /api/users      → Create user
+PUT    /api/users/:id  → Update user
+PATCH  /api/users/:id  → Partial update
+DELETE /api/users/:id  → Delete user`
+                },
+                {
+                    title: "Socket.IO",
+                    icon: "fa-plug",
+                    color: "green",
+                    content: "Socket.IO is a JavaScript library used for real-time, bidirectional communication between client and server. It is useful for chat applications, live notifications, real-time dashboards, and online consultation systems.",
+                    tags: ["Real-time", "WebSocket", "Bidirectional"],
+                    code: `// Server
+io.on('connection', (socket) => {
+  socket.on('message', (data) => {
+    io.emit('message', data);
+  });
+});
+
+// Client
+socket.emit('message', 'Hello!');
+socket.on('message', (data) => console.log(data));`
+                },
+                {
+                    title: "Multer",
+                    icon: "fa-file-upload",
+                    color: "green",
+                    content: "Multer is a Node.js middleware used for handling multipart/form-data, mainly for file uploads. Used for doctor document upload during verification process in MediQ project.",
+                    tags: ["File Upload", "Middleware", "Form Data"],
+                    code: `const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+app.post('/upload', upload.single('document'), 
+  (req, res) => {
+    res.json({ file: req.file });
+  }
+);`
+                },
+                {
+                    title: "Axios",
+                    icon: "fa-paper-plane",
+                    color: "green",
+                    content: "Axios is a promise-based HTTP client used to send requests from frontend to backend APIs. In React, we use Axios to perform operations like fetching data, sending form data, updating records, and deleting data.",
+                    tags: ["HTTP Client", "Promise", "API Calls"],
+                    code: `import axios from 'axios';
+
+// GET request
+const getUsers = async () => {
+  const response = await axios.get('/api/users');
+  return response.data;
+};
+
+// POST request
+const createUser = async (userData) => {
+  const response = await axios.post('/api/users', userData);
+  return response.data;
+};`
+                },
+                {
+                    title: "dotenv",
+                    icon: "fa-key",
+                    color: "green",
+                    content: "dotenv is used to store secret values like MongoDB URL, JWT secret, port number, and API keys in a .env file. It keeps sensitive data secure and separate from source code.",
+                    tags: ["Environment", "Security", "Config"],
+                    code: `// .env file
+MONGODB_URL=mongodb://localhost:27017/mydb
+JWT_SECRET=mysecretkey
+PORT=5000
+
+// server.js
+require('dotenv').config();
+const port = process.env.PORT;`
+                },
+                {
+                    title: "CORS",
+                    icon: "fa-globe",
+                    color: "green",
+                    content: "CORS stands for Cross-Origin Resource Sharing. It allows frontend and backend running on different ports or domains to communicate with each other by handling security restrictions.",
+                    tags: ["Security", "Cross-Origin", "Headers"],
+                    code: `const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));`
+                }
+            ],
+            database: [
+                {
+                    title: "MongoDB",
+                    icon: "fa-database",
+                    color: "green",
+                    content: "MongoDB is a NoSQL database that stores data in collections and documents. It is flexible, scalable, and works well with JavaScript-based applications because data is stored in JSON-like format (BSON).",
+                    tags: ["NoSQL", "Document", "Scalable"],
+                    code: `// Document Example
+{
+  "_id": ObjectId("..."),
+  "name": "Vivek",
+  "email": "vivek@example.com",
+  "role": "developer",
+  "skills": ["React", "Node.js"]
+}`
+                },
+                {
+                    title: "Schema (Mongoose)",
+                    icon: "fa-table",
+                    color: "green",
+                    content: "A schema defines the structure of a document in MongoDB using Mongoose. It includes fields, data types, required values, default values, and validations.",
+                    tags: ["Structure", "Validation", "Mongoose"],
+                    code: `const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: { type: Number, default: 0 },
+  role: { type: String, enum: ['user', 'admin'] }
+});`
+                },
+                {
+                    title: "Model (Mongoose)",
+                    icon: "fa-cube",
+                    color: "green",
+                    content: "A model is created from a schema and is used to interact with the MongoDB collection. We use models to create, read, update, and delete data (CRUD operations).",
+                    tags: ["CRUD", "Collection", "ODM"],
+                    code: `const User = mongoose.model('User', userSchema);
+
+// Create
+const newUser = new User({ name: 'Vivek' });
+await newUser.save();
+
+// Read
+const users = await User.find();
+
+// Update
+await User.findByIdAndUpdate(id, { name: 'New Name' });
+
+// Delete
+await User.findByIdAndDelete(id);`
+                },
+                {
+                    title: "Mongoose",
+                    icon: "fa-leaf",
+                    color: "green",
+                    content: "Mongoose is an ODM (Object Document Mapping) library for MongoDB. It helps us define schemas, create models, add validation, and perform database operations like create, read, update, and delete.",
+                    tags: ["ODM", "Validation", "Modeling"],
+                    code: `const mongoose = require('mongoose');
+
+// Connect
+mongoose.connect(process.env.MONGODB_URL)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error(err));`
+                }
+            ],
+
+            javascript: [
+                {
+                    title: "let Keyword",
+                    icon: "fa-font",
+                    color: "yellow",
+                    content: "let is used to declare a variable in JavaScript. It has block scope and can be reassigned but not redeclared in the same scope.",
+                    tags: ["Variable", "Block Scope", "ES6"],
+                    code: `let name = "Vivek";
+name = "Nagariya"; // Allowed
+
+// Block scope
+if (true) {
+  let x = 10;
+}
+console.log(x); // Error: x is not defined`
+                },
+                {
+                    title: "async Keyword",
+                    icon: "fa-bolt",
+                    color: "yellow",
+                    content: "async is used before a function to make it asynchronous. It means the function can handle tasks that take time, like API calls or database queries, without blocking the main thread.",
+                    tags: ["Asynchronous", "Promise", "Non-blocking"],
+                    code: `async function fetchData() {
+  // This function returns a Promise
+  const data = await fetch('/api/users');
+  return data.json();
+}
+
+// Arrow function
+const getUsers = async () => {
+  const response = await axios.get('/api/users');
+  return response.data;
+};`
+                },
+                {
+                    title: "await Keyword",
+                    icon: "fa-hourglass-half",
+                    color: "yellow",
+                    content: "await is used to wait for an asynchronous operation to complete. It is mostly used with API calls, database queries, or promises. It can only be used inside an async function.",
+                    tags: ["Wait", "Promise", "Async"],
+                    code: `async function getUserData() {
+  try {
+    const response = await fetch('/api/user/123');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}`
+                },
+                {
+                    title: "Callback Function",
+                    icon: "fa-reply",
+                    color: "yellow",
+                    content: "A callback is a function passed as an argument to another function and executed later. It is a fundamental concept in JavaScript for handling asynchronous operations.",
+                    tags: ["Function", "Asynchronous", "Higher-Order"],
+                    code: `function fetchData(callback) {
+  setTimeout(() => {
+    const data = { id: 1, name: 'Vivek' };
+    callback(data);
+  }, 1000);
+}
+
+fetchData((data) => {
+  console.log('Received:', data);
+});`
+                },
+                {
+                    title: "Promise",
+                    icon: "fa-handshake",
+                    color: "yellow",
+                    content: "A Promise is used to handle asynchronous operations. It has three states: pending (initial), fulfilled (success), and rejected (error). Promises provide a cleaner way to handle async code compared to callbacks.",
+                    tags: ["Async", "States", "Chain"],
+                    code: `const promise = new Promise((resolve, reject) => {
+  if (success) {
+    resolve('Data loaded');
+  } else {
+    reject('Error occurred');
+  }
+});
+
+promise
+  .then(data => console.log(data))
+  .catch(error => console.error(error))
+  .finally(() => console.log('Done'));`
+                },
+                {
+                    title: "Promise.all()",
+                    icon: "fa-layer-group",
+                    color: "yellow",
+                    content: "Promise.all takes an array of promises and returns a single promise that resolves when ALL promises resolve. If ANY promise rejects, it immediately rejects with that error. Returns results in the same order as input.",
+                    tags: ["Parallel", "All Success", "Aggregate"],
+                    code: `const promises = [
+  fetch('/api/users'),
+  fetch('/api/posts'),
+  fetch('/api/comments')
+];
+
+Promise.all(promises)
+  .then(([users, posts, comments]) => {
+    console.log('All loaded:', users, posts, comments);
+  })
+  .catch(error => console.error('One failed:', error));
+
+// If any fails, everything fails`,
+                    badge: "Concurrency"
+                },
+                {
+                    title: "Promise.allSettled()",
+                    icon: "fa-check-double",
+                    color: "yellow",
+                    content: "Promise.allSettled waits for ALL promises to settle (resolve OR reject) and returns an array of objects with status and value/reason for each. Unlike Promise.all, it never rejects - you get results for all promises regardless of success or failure.",
+                    tags: ["All Results", "No Fail", "Status"],
+                    code: `Promise.allSettled([
+  Promise.resolve('success'),
+  Promise.reject('error'),
+  Promise.resolve('another success')
+]).then(results => {
+  results.forEach(result => {
+    if (result.status === 'fulfilled') {
+      console.log('Success:', result.value);
+    } else {
+      console.log('Failed:', result.reason);
+    }
+  });
+});
+
+// Output:
+// [{status: 'fulfilled', value: 'success'}, 
+//  {status: 'rejected', reason: 'error'},
+//  {status: 'fulfilled', value: 'another success'}]`,
+                    badge: "Concurrency"
+                },
+                {
+                    title: "Promise.race()",
+                    icon: "fa-flag-checkered",
+                    color: "yellow",
+                    content: "Promise.race returns a promise that settles (resolves or rejects) as soon as ONE of the input promises settles. It returns the value/reason from the first promise that completes, regardless of whether it resolved or rejected.",
+                    tags: ["First Wins", "Timeout", "Speed"],
+                    code: `const fetchWithTimeout = (url, timeout) => {
+  return Promise.race([
+    fetch(url),
+    new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout')), timeout)
+    )
+  ]);
+};
+
+fetchWithTimeout('/api/data', 5000)
+  .then(data => console.log(data))
+  .catch(err => console.error('Request timed out'));`,
+                    badge: "Concurrency"
+                },
+                {
+                    title: "Promise.any()",
+                    icon: "fa-trophy",
+                    color: "yellow",
+                    content: "Promise.any returns the FIRST promise that RESOLVES (fulfills). It ignores rejected promises unless ALL promises reject, in which case it returns an AggregateError. Useful when you have multiple sources and only need one successful result.",
+                    tags: ["First Success", "Ignore Fail", "Fallback"],
+                    code: `const promises = [
+  fetch('/api/primary'),
+  fetch('/api/backup'),
+  fetch('/api/cdn')
+];
+
+Promise.any(promises)
+  .then(firstSuccess => console.log(firstSuccess))
+  .catch(error => {
+    // All failed
+    console.error('All sources failed:', error.errors);
+  });
+
+// Returns first successful response`,
+                    badge: "Concurrency"
+                },
+                {
+                    title: "Promise.resolve() & Promise.reject()",
+                    icon: "fa-check-circle",
+                    color: "yellow",
+                    content: "Promise.resolve() returns a promise that is resolved with a given value. Promise.reject() returns a promise that is rejected with a given reason. Useful for creating promises from synchronous values or in testing.",
+                    tags: ["Static Methods", "Quick Create", "Testing"],
+                    code: `// Create resolved promise
+const resolved = Promise.resolve(42);
+resolved.then(val => console.log(val)); // 42
+
+// Create rejected promise
+const rejected = Promise.reject(new Error('Failed'));
+rejected.catch(err => console.error(err));
+
+// Wrap value in promise
+const value = 'hello';
+Promise.resolve(value).then(v => console.log(v));`,
+                    badge: "Static"
+                },
+                {
+                    title: "Promise.prototype.finally()",
+                    icon: "fa-door-open",
+                    color: "yellow",
+                    content: "The finally() method returns a Promise. When the promise is settled (fulfilled or rejected), the specified callback function is executed. This provides a way to run code regardless of the promise's outcome, like cleanup operations.",
+                    tags: ["Cleanup", "Always Run", "Settled"],
+                    code: `fetch('/api/data')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error))
+  .finally(() => {
+    // Always runs
+    console.log('Cleanup: hide loading spinner');
+    setLoading(false);
+  });`,
+                    badge: "Instance"
+                },
+                {
+                    title: "Promise Chaining",
+                    icon: "fa-link",
+                    color: "yellow",
+                    content: "Promise chaining allows you to chain multiple .then() calls together. Each .then() receives the result of the previous promise. This creates a clean, readable flow of asynchronous operations without callback hell.",
+                    tags: ["Chain", "Sequential", "Readable"],
+                    code: `fetchUser(1)
+  .then(user => fetchOrders(user.id))
+  .then(orders => fetchProducts(orders[0].id))
+  .then(product => console.log(product))
+  .catch(error => console.error(error));
+
+// Each .then() receives the previous result
+// Single .catch() handles all errors`,
+                    badge: "Pattern"
+                },
+                {
+                    title: "LocalStorage",
+                    icon: "fa-hdd",
+                    color: "yellow",
+                    content: "LocalStorage is a browser storage feature used to store data in key-value format. The data remains available even after refreshing or closing the browser. It stores only strings.",
+                    tags: ["Storage", "Browser", "Persistent"],
+                    code: `// Store data
+localStorage.setItem('username', 'Vivek');
+localStorage.setItem('user', JSON.stringify({ id: 1 }));
+
+// Retrieve data
+const username = localStorage.getItem('username');
+const user = JSON.parse(localStorage.getItem('user'));
+
+// Remove data
+localStorage.removeItem('username');
+localStorage.clear(); // Clear all`
+                }
+            ],
+
+            http: [
+                { code: "100", name: "Continue", desc: "Server received request headers, client should proceed.", type: "1xx" },
+                { code: "101", name: "Switching Protocols", desc: "Server is switching to a different protocol.", type: "1xx" },
+                { code: "102", name: "Processing", desc: "Server has received and is processing the request.", type: "1xx" },
+                { code: "103", name: "Early Hints", desc: "Used to return some response headers before final response.", type: "1xx" },
+                { code: "200", name: "OK", desc: "Request succeeded. Standard response for successful HTTP requests.", type: "2xx" },
+                { code: "201", name: "Created", desc: "Request succeeded and a new resource was created.", type: "2xx" },
+                { code: "202", name: "Accepted", desc: "Request accepted for processing but not completed yet.", type: "2xx" },
+                { code: "203", name: "Non-Authoritative Information", desc: "Server is a transforming proxy and received 200 OK.", type: "2xx" },
+                { code: "204", name: "No Content", desc: "Server processed request but no content to return.", type: "2xx" },
+                { code: "205", name: "Reset Content", desc: "Server processed request, user should reset document view.", type: "2xx" },
+                { code: "206", name: "Partial Content", desc: "Server is delivering only part of the resource.", type: "2xx" },
+                { code: "207", name: "Multi-Status", desc: "Message body contains status for multiple resources.", type: "2xx" },
+                { code: "208", name: "Already Reported", desc: "Members of a DAV binding have already been enumerated.", type: "2xx" },
+                { code: "226", name: "IM Used", desc: "Server has fulfilled a GET request for the resource.", type: "2xx" },
+                { code: "300", name: "Multiple Choices", desc: "Multiple options for the resource.", type: "3xx" },
+                { code: "301", name: "Moved Permanently", desc: "Resource has been moved to a new URL permanently.", type: "3xx" },
+                { code: "302", name: "Found", desc: "Resource temporarily located at a different URL.", type: "3xx" },
+                { code: "303", name: "See Other", desc: "Response to the request can be found at another URL.", type: "3xx" },
+                { code: "304", name: "Not Modified", desc: "Resource has not been modified since last request.", type: "3xx" },
+                { code: "305", name: "Use Proxy", desc: "Resource must be accessed through the proxy.", type: "3xx" },
+                { code: "307", name: "Temporary Redirect", desc: "Resource temporarily located at a different URL.", type: "3xx" },
+                { code: "308", name: "Permanent Redirect", desc: "Resource has been permanently moved to a new URL.", type: "3xx" },
+                { code: "400", name: "Bad Request", desc: "Server cannot process the request due to client error.", type: "4xx" },
+                { code: "401", name: "Unauthorized", desc: "Authentication is required and has failed or not provided.", type: "4xx" },
+                { code: "402", name: "Payment Required", desc: "Reserved for future use (digital payments).", type: "4xx" },
+                { code: "403", name: "Forbidden", desc: "Server understood request but refuses to authorize it.", type: "4xx" },
+                { code: "404", name: "Not Found", desc: "Requested resource could not be found on server.", type: "4xx" },
+                { code: "405", name: "Method Not Allowed", desc: "HTTP method is not supported for the resource.", type: "4xx" },
+                { code: "406", name: "Not Acceptable", desc: "Server cannot generate content acceptable to client.", type: "4xx" },
+                { code: "407", name: "Proxy Authentication Required", desc: "Client must authenticate with the proxy first.", type: "4xx" },
+                { code: "408", name: "Request Timeout", desc: "Server timed out waiting for the client request.", type: "4xx" },
+                { code: "409", name: "Conflict", desc: "Request conflicts with current state of the server.", type: "4xx" },
+                { code: "410", name: "Gone", desc: "Resource is permanently removed and will not return.", type: "4xx" },
+                { code: "411", name: "Length Required", desc: "Server requires Content-Length header.", type: "4xx" },
+                { code: "412", name: "Precondition Failed", desc: "Server does not meet preconditions in headers.", type: "4xx" },
+                { code: "413", name: "Payload Too Large", desc: "Request entity is larger than server can process.", type: "4xx" },
+                { code: "414", name: "URI Too Long", desc: "URI provided was too long for server to process.", type: "4xx" },
+                { code: "415", name: "Unsupported Media Type", desc: "Media format not supported by the server.", type: "4xx" },
+                { code: "416", name: "Range Not Satisfiable", desc: "Range header field cannot be fulfilled.", type: "4xx" },
+                { code: "417", name: "Expectation Failed", desc: "Expect header field cannot be met by server.", type: "4xx" },
+                { code: "500", name: "Internal Server Error", desc: "Server encountered an unexpected condition.", type: "5xx" },
+                { code: "501", name: "Not Implemented", desc: "Server does not support the functionality required.", type: "5xx" },
+                { code: "502", name: "Bad Gateway", desc: "Server received invalid response from upstream server.", type: "5xx" },
+                { code: "503", name: "Service Unavailable", desc: "Server is temporarily overloaded or under maintenance.", type: "5xx" },
+                { code: "504", name: "Gateway Timeout", desc: "Server did not receive timely response from upstream.", type: "5xx" },
+                { code: "505", name: "HTTP Version Not Supported", desc: "Server does not support the HTTP protocol version.", type: "5xx" },
+                { code: "506", name: "Variant Also Negotiates", desc: "Transparent content negotiation configuration error.", type: "5xx" },
+                { code: "507", name: "Insufficient Storage", desc: "Server is unable to store the representation needed.", type: "5xx" },
+                { code: "508", name: "Loop Detected", desc: "Server detected an infinite loop while processing.", type: "5xx" },
+                { code: "510", name: "Not Extended", desc: "Further extensions to the request are required.", type: "5xx" },
+                { code: "511", name: "Network Authentication Required", desc: "Client needs to authenticate to gain network access.", type: "5xx" }
+            ],
+            general: [
+                {
+                    title: "Authentication",
+                    icon: "fa-user-shield",
+                    color: "purple",
+                    content: "Authentication is the process of verifying the identity of a user. In web applications, users usually authenticate using email and password. After successful login, the server provides a token or session to access protected resources.",
+                    tags: ["Identity", "Login", "Security"],
+                    code: `// Login flow
+1. User enters email/password
+2. Server validates credentials
+3. Server generates JWT token
+4. Client stores token
+5. Token sent with each request`
+                },
+                {
+                    title: "JWT (JSON Web Token)",
+                    icon: "fa-key",
+                    color: "purple",
+                    content: "JWT stands for JSON Web Token. It is used for secure authentication. After login, the backend generates a token containing user information like user ID and role. The frontend sends this token with protected API requests, and the backend verifies it before allowing access.",
+                    tags: ["Token", "Security", "Auth"],
+                    code: `// JWT Structure: header.payload.signature
+const token = jwt.sign(
+  { userId: user._id, role: user.role },
+  process.env.JWT_SECRET,
+  { expiresIn: '24h' }
+);
+
+// Verify
+const decoded = jwt.verify(token, process.env.JWT_SECRET);`
+                },
+                {
+                    title: "Authentication vs Authorization",
+                    icon: "fa-lock",
+                    color: "purple",
+                    content: "Authentication checks WHO the user is (verification of identity). Authorization checks WHAT the user is allowed to access (permissions and roles). Authentication comes first, then authorization.",
+                    tags: ["Security", "Identity", "Permissions"],
+                    code: `// Authentication: Who are you?
+if (!token) return res.status(401).send('Unauthorized');
+
+// Authorization: What can you do?
+if (user.role !== 'admin') 
+  return res.status(403).send('Forbidden');`
+                },
+                {
+                    title: "req.params vs req.body vs req.query",
+                    icon: "fa-exchange-alt",
+                    color: "purple",
+                    content: "These are different ways to send/receive data in Express.js requests. req.body contains data sent from forms, req.params gets data from URL parameters, and req.query retrieves data from query strings in the URL.",
+                    tags: ["Express", "Request", "Data"],
+                    code: `// req.body   → POST/PUT data
+app.post('/users', (req, res) => {
+  const userData = req.body; // { name: 'Vivek' }
+});
+
+// req.params → URL parameters
+app.get('/users/:id', (req, res) => {
+  const userId = req.params.id; // "123"
+});
+
+// req.query  → Query strings
+app.get('/search', (req, res) => {
+  const term = req.query.q; // "?q=react"
+});`
+                },
+                {
+                    title: "Frontend-Backend Connection",
+                    icon: "fa-network-wired",
+                    color: "purple",
+                    content: "Frontend connects with backend using REST APIs through Axios or fetch. The frontend sends HTTP requests to backend endpoints, and the backend processes the request and returns JSON data.",
+                    tags: ["API", "Connection", "Full Stack"],
+                    code: `// Frontend (React)
+const fetchUsers = async () => {
+  const res = await axios.get('http://localhost:5000/api/users');
+  setUsers(res.data);
+};
+
+// Backend (Express)
+app.get('/api/users', async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});`
+                }
+            ]
+        };
+
+        // Render Functions
+        function renderCard(topic, category) {
+            const colorClasses = {
+                blue: 'bg-blue-50 border-blue-200 text-blue-800',
+                green: 'bg-green-50 border-green-200 text-green-800',
+                yellow: 'bg-yellow-50 border-yellow-200 text-yellow-800',
+                purple: 'bg-purple-50 border-purple-200 text-purple-800',
+                red: 'bg-red-50 border-red-200 text-red-800'
+            };
+
+            const iconColors = {
+                blue: 'text-blue-600 bg-blue-100',
+                green: 'text-green-600 bg-green-100',
+                yellow: 'text-yellow-600 bg-yellow-100',
+                purple: 'text-purple-600 bg-purple-100',
+                red: 'text-red-600 bg-red-100'
+            };
+
+            const badgeColors = {
+                'Basic': 'bg-green-100 text-green-700',
+                'Advanced': 'bg-orange-100 text-orange-700',
+                'React 18+': 'bg-blue-100 text-blue-700',
+                'Concurrency': 'bg-purple-100 text-purple-700',
+                'Static': 'bg-gray-100 text-gray-700',
+                'Instance': 'bg-pink-100 text-pink-700',
+                'Pattern': 'bg-indigo-100 text-indigo-700'
+            };
+
+            const badge = topic.badge ? `<span class="hook-badge ${badgeColors[topic.badge] || 'bg-gray-100 text-gray-600'}">${topic.badge}</span>` : '';
+
+            return `
+                <div class="card bg-white rounded-xl shadow-sm border border-gray-200 card-hover overflow-hidden relative" data-category="${category}">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg ${iconColors[topic.color]} flex items-center justify-center">
+                                    <i class="fas ${topic.icon}"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">${topic.title}</h3>
+                                    ${badge}
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">${topic.content}</p>
+                        ${topic.code ? `
+                        <div class="code-block mb-4">
+                            <pre class="text-xs text-gray-300 font-mono overflow-x-auto"><code>${escapeHtml(topic.code)}</code></pre>
+                        </div>
+                        ` : ''}
+                        <div class="flex flex-wrap gap-2">
+                            ${topic.tags.map(tag => `
+                                <span class="px-2 py-1 rounded-md text-xs font-medium ${colorClasses[topic.color]}">${tag}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHttpCard(status) {
+            const typeColors = {
+                '1xx': 'bg-blue-50 border-blue-200 text-blue-700',
+                '2xx': 'bg-green-50 border-green-200 text-green-700',
+                '3xx': 'bg-yellow-50 border-yellow-200 text-yellow-700',
+                '4xx': 'bg-red-50 border-red-200 text-red-700',
+                '5xx': 'bg-purple-50 border-purple-200 text-purple-700'
+            };
+
+            const badgeColors = {
+                '1xx': 'bg-blue-100 text-blue-800',
+                '2xx': 'bg-green-100 text-green-800',
+                '3xx': 'bg-yellow-100 text-yellow-800',
+                '4xx': 'bg-red-100 text-red-800',
+                '5xx': 'bg-purple-100 text-purple-800'
+            };
+
+            return `
+                <div class="card bg-white rounded-lg shadow-sm border border-gray-200 card-hover overflow-hidden status-code-${status.type}" data-category="http">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-2xl font-bold font-mono ${typeColors[status.type].split(' ')[2]}">${status.code}</span>
+                            <span class="px-2 py-1 rounded text-xs font-bold ${badgeColors[status.type]}">${status.type}</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-1">${status.name}</h4>
+                        <p class="text-xs text-gray-500">${status.desc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        function init() {
+            // Render React cards
+            document.getElementById('react-grid').innerHTML = topics.react.map(t => renderCard(t, 'react')).join('');
+
+            // Render Backend cards
+            document.getElementById('backend-grid').innerHTML = topics.backend.map(t => renderCard(t, 'backend')).join('');
+
+            // Render Database cards
+            document.getElementById('database-grid').innerHTML = topics.database.map(t => renderCard(t, 'database')).join('');
+
+            // Render JavaScript cards
+            document.getElementById('javascript-grid').innerHTML = topics.javascript.map(t => renderCard(t, 'javascript')).join('');
+
+            // Render HTTP cards
+            document.getElementById('http-grid').innerHTML = topics.http.map(s => renderHttpCard(s)).join('');
+
+            // Render General cards
+            document.getElementById('general-grid').innerHTML = topics.general.map(t => renderCard(t, 'general')).join('');
+
+            // Update stats
+            const totalTopics = topics.react.length + topics.backend.length + topics.database.length + 
+                              topics.javascript.length + topics.http.length + topics.general.length;
+            document.getElementById('totalTopics').textContent = totalTopics;
+            document.getElementById('totalQuestions').textContent = totalTopics;
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = '';
+                    if (searchTerm) {
+                        highlightText(card, searchTerm);
+                    } else {
+                        removeHighlight(card);
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide sections based on visible cards
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.card[style="display: none;"]');
+                const totalCards = section.querySelectorAll('.card');
+                if (visibleCards.length === totalCards.length && searchTerm) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = '';
+                }
+            });
+        });
+
+        function highlightText(element, term) {
+            removeHighlight(element);
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+
+            nodes.forEach(node => {
+                if (node.parentElement.tagName === 'CODE') return;
+                const text = node.textContent;
+                if (text.toLowerCase().includes(term)) {
+                    const regex = new RegExp(`(${term})`, 'gi');
+                    const span = document.createElement('span');
+                    span.innerHTML = text.replace(regex, '<mark class="search-highlight">$1</mark>');
+                    node.parentNode.replaceChild(span, node);
+                }
+            });
+        }
+
+        function removeHighlight(element) {
+            const marks = element.querySelectorAll('mark');
+            marks.forEach(mark => {
+                const parent = mark.parentNode;
+                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                parent.normalize();
+            });
+        }
+
+        // Category filter
+        function filterCategory(category) {
+            const sections = document.querySelectorAll('.category-section');
+            const navBtns = document.querySelectorAll('.nav-btn');
+
+            navBtns.forEach(btn => {
+                btn.classList.remove('text-blue-600', 'text-green-600', 'text-yellow-600', 'text-red-500', 'text-purple-600');
+                btn.classList.add('text-gray-600');
+            });
+
+            if (category === 'all') {
+                sections.forEach(s => s.style.display = '');
+                navBtns[0].classList.remove('text-gray-600');
+                navBtns[0].classList.add('text-blue-600');
+            } else {
+                sections.forEach(s => {
+                    s.style.display = s.dataset.category === category ? '' : 'none';
+                });
+                const activeBtn = document.querySelector(`button[onclick="filterCategory('${category}')"]`);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-gray-600');
+                    const colorMap = {
+                        'react': 'text-blue-600',
+                        'backend': 'text-green-600',
+                        'database': 'text-green-600',
+                        'javascript': 'text-yellow-600',
+                        'http': 'text-red-500',
+                        'general': 'text-purple-600'
+                    };
+                    activeBtn.classList.add(colorMap[category]);
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+
+            // Show/hide scroll to top button
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            if (winScroll > 300) {
+                scrollBtn.style.display = 'flex';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
