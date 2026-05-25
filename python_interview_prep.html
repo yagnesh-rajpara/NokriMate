@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Full Stack Interview Preparation - Complete Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #306998 0%, #FFD43B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+        .search-highlight {
+            background: yellow;
+            padding: 0 2px;
+        }
+        .sticky-nav {
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.9);
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #306998, #FFD43B);
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+        @media print {
+            .no-print { display: none; }
+            .card { break-inside: avoid; page-break-inside: avoid; }
+        }
+        .status-code-1xx { border-left: 4px solid #3498db; }
+        .status-code-2xx { border-left: 4px solid #2ecc71; }
+        .status-code-3xx { border-left: 4px solid #f39c12; }
+        .status-code-4xx { border-left: 4px solid #e74c3c; }
+        .status-code-5xx { border-left: 4px solid #9b59b6; }
+        .topic-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+        .badge-tag {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+            margin-top: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky-nav fixed w-full top-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-yellow-400 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">Python Interview Prep</h1>
+                        <p class="text-xs text-gray-500">Full Stack - Django, Flask, FastAPI</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <button onclick="filterCategory('all')" class="nav-btn text-sm font-medium text-gray-600 hover:text-blue-600 transition">All</button>
+                    <button onclick="filterCategory('python')" class="nav-btn text-sm font-medium text-gray-600 hover:text-blue-600 transition">Python Core</button>
+                    <button onclick="filterCategory('django')" class="nav-btn text-sm font-medium text-gray-600 hover:text-green-600 transition">Django</button>
+                    <button onclick="filterCategory('flask')" class="nav-btn text-sm font-medium text-gray-600 hover:text-gray-600 transition">Flask</button>
+                    <button onclick="filterCategory('fastapi')" class="nav-btn text-sm font-medium text-gray-600 hover:text-teal-500 transition">FastAPI</button>
+                    <button onclick="filterCategory('advanced')" class="nav-btn text-sm font-medium text-gray-600 hover:text-purple-600 transition">Advanced</button>
+                    <button onclick="filterCategory('libraries')" class="nav-btn text-sm font-medium text-gray-600 hover:text-orange-500 transition">Libraries</button>
+                    <button onclick="filterCategory('http')" class="nav-btn text-sm font-medium text-gray-600 hover:text-red-500 transition">HTTP</button>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search topics..." 
+                            class="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-48 md:w-64 transition-all">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                    <button onclick="window.print()" class="no-print p-2 text-gray-600 hover:text-blue-600 transition" title="Print">
+                        <i class="fas fa-print"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="pt-24 pb-12 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    <span class="bg-gradient-to-r from-blue-400 via-yellow-300 to-blue-400 bg-clip-text text-transparent">
+                        Python Full Stack Interview
+                    </span>
+                    <br>Preparation Guide
+                </h1>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+                    Complete study material covering Python Core, Django, Flask, FastAPI, 
+                    Advanced Concepts, Popular Libraries, and essential interview topics.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300">
+                        <i class="fab fa-python mr-2"></i>Python Core
+                    </span>
+                    <span class="px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full text-green-300">
+                        <i class="fas fa-server mr-2"></i>Django
+                    </span>
+                    <span class="px-4 py-2 bg-gray-500/20 border border-gray-500/30 rounded-full text-gray-300">
+                        <i class="fas fa-flask mr-2"></i>Flask
+                    </span>
+                    <span class="px-4 py-2 bg-teal-500/20 border border-teal-500/30 rounded-full text-teal-300">
+                        <i class="fas fa-bolt mr-2"></i>FastAPI
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="bg-white border-b border-gray-200 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-blue-600" id="totalTopics">0</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">Total Topics</div>
+                </div>
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-green-600" id="totalQuestions">0</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">Q&A Items</div>
+                </div>
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-purple-600">40+</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">HTTP Codes</div>
+                </div>
+                <div class="p-3">
+                    <div class="text-2xl font-bold text-orange-600">7</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wide">Categories</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Python Core Section -->
+        <section id="python" class="mb-12 category-section" data-category="python">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-blue-100 text-blue-600 mr-4">
+                    <i class="fab fa-python text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Python Core Concepts</h2>
+                    <p class="text-sm text-gray-500">Variables, Data Types, OOP, Functions, and Python fundamentals</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="python-grid"></div>
+        </section>
+
+        <!-- Django Section -->
+        <section id="django" class="mb-12 category-section" data-category="django">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-green-100 text-green-600 mr-4">
+                    <i class="fas fa-server text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Django Framework</h2>
+                    <p class="text-sm text-gray-500">Full-stack Python web framework with batteries included</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="django-grid"></div>
+        </section>
+
+        <!-- Flask Section -->
+        <section id="flask" class="mb-12 category-section" data-category="flask">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-gray-100 text-gray-600 mr-4">
+                    <i class="fas fa-flask text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Flask Framework</h2>
+                    <p class="text-sm text-gray-500">Lightweight WSGI web application framework</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="flask-grid"></div>
+        </section>
+
+        <!-- FastAPI Section -->
+        <section id="fastapi" class="mb-12 category-section" data-category="fastapi">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-teal-100 text-teal-600 mr-4">
+                    <i class="fas fa-bolt text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">FastAPI</h2>
+                    <p class="text-sm text-gray-500">Modern, fast web framework for building APIs with Python</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="fastapi-grid"></div>
+        </section>
+
+        <!-- Advanced Section -->
+        <section id="advanced" class="mb-12 category-section" data-category="advanced">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-purple-100 text-purple-600 mr-4">
+                    <i class="fas fa-brain text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Python Advanced Concepts</h2>
+                    <p class="text-sm text-gray-500">Asyncio, GIL, Memory Management, Multithreading, and more</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="advanced-grid"></div>
+        </section>
+
+        <!-- Libraries Section -->
+        <section id="libraries" class="mb-12 category-section" data-category="libraries">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-orange-100 text-orange-600 mr-4">
+                    <i class="fas fa-book text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Popular Python Libraries</h2>
+                    <p class="text-sm text-gray-500">NumPy, Pandas, Requests, SQLAlchemy, Celery, and more</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="libraries-grid"></div>
+        </section>
+
+        <!-- HTTP Status Codes Section -->
+        <section id="http" class="mb-12 category-section" data-category="http">
+            <div class="flex items-center mb-6">
+                <div class="topic-icon bg-red-100 text-red-600 mr-4">
+                    <i class="fas fa-server text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">HTTP Status Codes</h2>
+                    <p class="text-sm text-gray-500">Complete reference of HTTP response codes</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="http-grid"></div>
+        </section>
+
+        <!-- Interview Tip Box -->
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 mb-12">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                        <i class="fas fa-lightbulb text-xl"></i>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Interview Fallback Response</h3>
+                    <p class="text-gray-700 italic bg-white/60 p-4 rounded-lg border-l-4 border-orange-400">
+                        "I have a basic understanding of this concept, but I have not used it deeply in a real project yet. 
+                        I am currently learning it and I can improve quickly with practical work."
+                    </p>
+                    <p class="text-sm text-gray-500 mt-2">Use this when you're unsure about a question during the interview.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-bold">Python Full Stack Interview Preparation</h3>
+                    <p class="text-sm text-gray-400">Complete study material for Python developers</p>
+                </div>
+                <div class="flex space-x-4 text-sm text-gray-400">
+                    <span><i class="fas fa-calendar mr-2"></i>May 2026</span>
+                    <span><i class="fas fa-user mr-2"></i>Vivek Nagariya</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+        class="no-print fixed bottom-6 right-6 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition flex items-center justify-center z-50"
+        id="scrollTopBtn" style="display: none;">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        /* {% verbatim %} */
+
+        // Data Structure
+        const topics = {
+            python: [
+                {
+                    title: "What is Python?",
+                    icon: "fa-python",
+                    color: "blue",
+                    content: "Python is a high-level, interpreted, general-purpose programming language. It emphasizes code readability with its use of significant indentation. Python is dynamically typed and garbage-collected. It supports multiple programming paradigms including structured, object-oriented, and functional programming.",
+                    tags: ["Language", "Interpreted", "Multi-paradigm"],
+                    code: `# Python is dynamically typed
+name = "Vivek"      # String
+age = 25            # Integer
+pi = 3.14           # Float
+is_valid = True     # Boolean
+
+print(f"Hello, {name}!")  # Hello, Vivek!`
+                },
+                {
+                    title: "Variables & Data Types",
+                    icon: "fa-cube",
+                    color: "blue",
+                    content: "Python has several built-in data types: int, float, str, bool, list, tuple, dict, set. Variables are created when you assign a value to them. Python is dynamically typed, so you don't need to declare the type explicitly.",
+                    tags: ["Types", "Dynamic", "Built-in"],
+                    code: `# Basic Types
+integer = 10
+floating = 10.5
+string = "Hello"
+boolean = True
+
+# Collection Types
+my_list = [1, 2, 3, "a", "b"]
+my_tuple = (1, 2, 3)  # Immutable
+my_dict = {"name": "Vivek", "age": 25}
+my_set = {1, 2, 3}  # Unique values
+
+# Check type
+print(type(my_list))  # <class 'list'>`
+                },
+                {
+                    title: "Lists",
+                    icon: "fa-list",
+                    color: "blue",
+                    content: "Lists are ordered, mutable collections in Python. They can contain items of different types. Lists support indexing, slicing, appending, extending, and many other operations. They are one of the most versatile data structures in Python.",
+                    tags: ["Mutable", "Ordered", "Collection"],
+                    code: `fruits = ["apple", "banana", "cherry"]
+
+# Access
+print(fruits[0])      # apple
+print(fruits[-1])     # cherry (last)
+
+# Modify
+fruits.append("date")
+fruits.insert(1, "blueberry")
+fruits.remove("banana")
+
+# Slicing
+print(fruits[1:3])    # ['blueberry', 'cherry']
+
+# List Comprehension
+squares = [x**2 for x in range(5)]  # [0, 1, 4, 9, 16]`
+                },
+                {
+                    title: "Dictionaries",
+                    icon: "fa-book",
+                    color: "blue",
+                    content: "Dictionaries are unordered (insertion-ordered in Python 3.7+), mutable collections of key-value pairs. Keys must be unique and immutable. Dictionaries are highly optimized for retrieving values when you know the key.",
+                    tags: ["Key-Value", "Hash Map", "Mutable"],
+                    code: `user = {
+    "name": "Vivek",
+    "age": 25,
+    "skills": ["Python", "Django"]
+}
+
+# Access
+print(user["name"])
+print(user.get("email", "Not found"))
+
+# Modify
+user["age"] = 26
+user.update({"city": "Mumbai"})
+
+# Iterate
+for key, value in user.items():
+    print(f"{key}: {value}")`
+                },
+                {
+                    title: "Tuples & Sets",
+                    icon: "fa-layer-group",
+                    color: "blue",
+                    content: "Tuples are immutable ordered collections - useful for fixed data. Sets are unordered collections of unique elements - useful for removing duplicates and set operations like union, intersection, difference.",
+                    tags: ["Immutable", "Unique", "Collection"],
+                    code: `# Tuple - Immutable
+coordinates = (10, 20)
+# coordinates[0] = 15  # Error!
+
+# Tuple unpacking
+x, y = coordinates
+
+# Set - Unique values
+numbers = {1, 2, 2, 3, 3, 3}  # {1, 2, 3}
+
+# Set operations
+a = {1, 2, 3}
+b = {3, 4, 5}
+print(a | b)  # Union: {1, 2, 3, 4, 5}
+print(a & b)  # Intersection: {3}
+print(a - b)  # Difference: {1, 2}`
+                },
+                {
+                    title: "Functions",
+                    icon: "fa-function",
+                    color: "blue",
+                    content: "Functions in Python are defined using the def keyword. They can accept positional arguments, keyword arguments, default values, *args (variable positional), and **kwargs (variable keyword). Functions are first-class objects.",
+                    tags: ["Def", "Args", "First-class"],
+                    code: `def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+# Lambda function
+square = lambda x: x ** 2
+
+# *args and **kwargs
+def flexible(*args, **kwargs):
+    print(args)      # Tuple of positional args
+    print(kwargs)    # Dict of keyword args
+
+flexible(1, 2, 3, name="Vivek", age=25)
+
+# First-class function
+def apply(func, value):
+    return func(value)
+print(apply(square, 5))  # 25`
+                },
+                {
+                    title: "Object-Oriented Programming (OOP)",
+                    icon: "fa-object-group",
+                    color: "blue",
+                    content: "Python supports OOP with classes and objects. Key concepts include encapsulation, inheritance, polymorphism, and abstraction. Python classes support multiple inheritance, class methods, static methods, and properties.",
+                    tags: ["Class", "Inheritance", "Polymorphism"],
+                    code: `class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self._age = age  # Protected
+    
+    def introduce(self):
+        return f"I am {self.name}, {self._age} years old"
+
+class Developer(Person):
+    def __init__(self, name, age, skills):
+        super().__init__(name, age)
+        self.skills = skills
+    
+    def introduce(self):  # Polymorphism
+        base = super().introduce()
+        return f"{base}. Skills: {', '.join(self.skills)}"
+
+dev = Developer("Vivek", 25, ["Python", "Django"])
+print(dev.introduce())`
+                },
+                {
+                    title: "Decorators",
+                    icon: "fa-magic",
+                    color: "blue",
+                    content: "Decorators are a powerful feature that allows you to modify or enhance functions without changing their source code. They use the @ syntax and are widely used in frameworks like Flask and Django for routing, authentication, etc.",
+                    tags: ["@syntax", "Wrapper", "Enhancement"],
+                    code: `import functools
+import time
+
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} took {time.time() - start:.2f}s")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    time.sleep(1)
+    return "Done"
+
+slow_function()  # slow_function took 1.00s`
+                },
+                {
+                    title: "Generators & Iterators",
+                    icon: "fa-sync-alt",
+                    color: "blue",
+                    content: "Generators are functions that use yield to return values one at a time, maintaining state between calls. They are memory-efficient for large datasets. Iterators implement __iter__() and __next__() methods.",
+                    tags: ["Yield", "Memory-efficient", "Lazy"],
+                    code: `# Generator function
+def count_up_to(n):
+    count = 1
+    while count <= n:
+        yield count
+        count += 1
+
+# Generator expression
+squares = (x**2 for x in range(1000000))
+
+# Iterator protocol
+class Countdown:
+    def __init__(self, start):
+        self.start = start
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.start <= 0:
+            raise StopIteration
+        self.start -= 1
+        return self.start + 1
+
+for num in Countdown(5):
+    print(num)  # 5, 4, 3, 2, 1`
+                },
+                {
+                    title: "List & Dict Comprehensions",
+                    icon: "fa-code",
+                    color: "blue",
+                    content: "Comprehensions provide a concise way to create lists and dictionaries. They are more readable and often faster than traditional for loops. You can also add conditions to filter items.",
+                    tags: ["Concise", "Fast", "Readable"],
+                    code: `# List Comprehension
+evens = [x for x in range(10) if x % 2 == 0]
+# [0, 2, 4, 6, 8]
+
+# Dict Comprehension
+squares = {x: x**2 for x in range(5)}
+# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+# Nested comprehension
+matrix = [[i*j for j in range(3)] for i in range(3)]
+# [[0, 0, 0], [0, 1, 2], [0, 2, 4]]
+
+# Set comprehension
+unique_lengths = {len(word) for word in ["apple", "banana", "cherry"]}
+# {5, 6}`
+                },
+                {
+                    title: "Exception Handling",
+                    icon: "fa-shield-alt",
+                    color: "blue",
+                    content: "Python uses try-except-finally blocks for exception handling. You can catch specific exceptions, use else block when no exception occurs, and finally block for cleanup. Custom exceptions can be created by inheriting from Exception class.",
+                    tags: ["Try-Except", "Error", "Custom"],
+                    code: `try:
+    result = 10 / 0
+except ZeroDivisionError as e:
+    print(f"Cannot divide by zero: {e}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+else:
+    print(f"Result: {result}")
+finally:
+    print("Cleanup code always runs")
+
+# Custom exception
+class ValidationError(Exception):
+    pass
+
+def validate_age(age):
+    if age < 0:
+        raise ValidationError("Age cannot be negative")
+    return age`
+                },
+                {
+                    title: "File Handling",
+                    icon: "fa-file-alt",
+                    color: "blue",
+                    content: "Python provides built-in functions for file operations. The with statement ensures proper acquisition and release of resources. Supports reading, writing, appending, and binary modes.",
+                    tags: ["With", "Read/Write", "Context"],
+                    code: `# Read file
+with open('data.txt', 'r') as file:
+    content = file.read()
+    lines = file.readlines()
+
+# Write file
+with open('output.txt', 'w') as file:
+    file.write("Hello, Python!\n")
+    file.writelines(["Line 1\n", "Line 2\n"])
+
+# Append mode
+with open('log.txt', 'a') as file:
+    file.write("New log entry\n")
+
+# CSV handling
+import csv
+with open('data.csv', 'r') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(row)`
+                },
+                {
+                    title: "Modules & Packages",
+                    icon: "fa-box-open",
+                    color: "blue",
+                    content: "Modules are single Python files. Packages are directories containing multiple modules with an __init__.py file. Python has a vast standard library and pip for third-party packages. Virtual environments isolate project dependencies.",
+                    tags: ["Import", "Pip", "Virtualenv"],
+                    code: `# Import styles
+import math
+from datetime import datetime
+from collections import defaultdict as dd
+
+# Create module (mymodule.py)
+# def greet(): return "Hello!"
+
+# Import custom module
+import mymodule
+print(mymodule.greet())
+
+# Virtual environment
+# python -m venv venv
+# source venv/bin/activate  (Linux/Mac)
+# venv\Scripts\activate    (Windows)
+# pip install requests django`
+                }
+            ],
+
+            django: [
+                {
+                    title: "What is Django?",
+                    icon: "fa-server",
+                    color: "green",
+                    content: "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It follows the 'batteries-included' philosophy and includes an ORM, authentication, admin interface, and more out of the box. It follows the MVT (Model-View-Template) architecture.",
+                    tags: ["Framework", "Batteries-included", "MVT"],
+                    code: `# Install Django
+# pip install django
+
+# Create project
+# django-admin startproject myproject
+
+# Create app
+# python manage.py startapp myapp
+
+# Run server
+# python manage.py runserver
+
+# Project structure
+myproject/
+    manage.py
+    myproject/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+        asgi.py
+    myapp/
+        models.py
+        views.py
+        urls.py
+        admin.py`
+                },
+                {
+                    title: "Django Models & ORM",
+                    icon: "fa-database",
+                    color: "green",
+                    content: "Django ORM (Object-Relational Mapping) allows you to define data models as Python classes. It automatically generates database tables and provides a powerful API for creating, retrieving, updating, and deleting records without writing SQL.",
+                    tags: ["ORM", "Models", "Database"],
+                    code: `from django.db import models
+
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    age = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    
+    class Meta:
+        db_table = 'users'
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.name
+
+# ORM Operations
+User.objects.all()  # SELECT * FROM users
+User.objects.filter(age__gte=18)  # WHERE age >= 18
+User.objects.get(id=1)  # Single record
+User.objects.create(name="Vivek", email="v@example.com")`
+                },
+                {
+                    title: "Django Views",
+                    icon: "fa-eye",
+                    color: "green",
+                    content: "Views handle requests and return responses. Django supports function-based views (FBV) and class-based views (CBV). CBVs provide built-in generic views for common patterns like ListView, DetailView, CreateView, UpdateView, DeleteView.",
+                    tags: ["FBV", "CBV", "Generic"],
+                    code: `# Function-Based View
+from django.shortcuts import render
+
+def user_list(request):
+    users = User.objects.all()
+    return render(request, 'users/list.html', {'users': users})
+
+# Class-Based View
+from django.views.generic import ListView
+
+class UserListView(ListView):
+    model = User
+    template_name = 'users/list.html'
+    context_object_name = 'users'
+    paginate_by = 10
+
+# API View with Django REST Framework
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def api_users(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)`
+                },
+                {
+                    title: "Django Templates",
+                    icon: "fa-paint-brush",
+                    color: "green",
+                    content: "Django's template engine allows separation of presentation from business logic. Templates use a special syntax with variables, tags, filters, template inheritance, and includes. It supports auto-escaping for security against XSS.",
+                    tags: ["Jinja-like", "Inheritance", "Filters"],
+                    code: `<!-- base.html -->
+<!DOCTYPE html>
+<html>
+<head><title>{% block title %}My Site{% endblock %}</title></head>
+<body>
+    {% include 'navbar.html' %}
+    {% block content %}{% endblock %}
+<\/body>
+<\/html>
+
+<!-- user_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Users ({{ users|length }})</h1>
+    {% for user in users %}
+        <p>{{ user.name|upper }} - {{ user.created_at|date:"Y-m-d" }}</p>
+    {% empty %}
+        <p>No users found.</p>
+    {% endfor %}
+{% endblock %}`
+                },
+                {
+                    title: "Django URL Routing",
+                    icon: "fa-route",
+                    color: "green",
+                    content: "Django uses URLconfs (URL configurations) to map URLs to views. URLs are defined using regular expressions or path() converters. You can include other URLconfs for modular routing and pass parameters to views.",
+                    tags: ["URLconf", "Path", "Include"],
+                    code: `# project/urls.py
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/users/', include('users.urls')),
+    path('api/posts/', include('posts.urls')),
+]
+
+# app/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.UserListView.as_view(), name='user-list'),
+    path('<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
+    path('create/', views.UserCreateView.as_view(), name='user-create'),
+]`
+                },
+                {
+                    title: "Django Forms",
+                    icon: "fa-check-square",
+                    color: "green",
+                    content: "Django forms handle HTML form generation, data validation, and cleaning. They can be generated from models (ModelForm) or defined manually. Forms handle CSRF protection automatically and provide easy error display.",
+                    tags: ["Validation", "ModelForm", "CSRF"],
+                    code: `from django import forms
+from .models import User
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['name', 'email', 'age']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already exists")
+        return email
+
+# In view
+form = UserForm(request.POST or None)
+if form.is_valid():
+    form.save()
+    return redirect('user-list')`
+                },
+                {
+                    title: "Django Middleware",
+                    icon: "fa-filter",
+                    color: "green",
+                    content: "Middleware is a framework of hooks into Django's request/response processing. It's a lightweight, low-level plugin system for globally altering Django's input or output. Each middleware component is responsible for doing some specific function.",
+                    tags: ["Request/Response", "Global", "Pipeline"],
+                    code: `# middleware.py
+class SimpleMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+    
+    def __call__(self, request):
+        # Code before view
+        print(f"Request: {request.method} {request.path}")
+        
+        response = self.get_response(request)
+        
+        # Code after view
+        print(f"Response: {response.status_code}")
+        return response
+
+# settings.py
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'myapp.middleware.SimpleMiddleware',
+]`
+                },
+                {
+                    title: "Django Admin",
+                    icon: "fa-user-shield",
+                    color: "green",
+                    content: "Django admin is a powerful built-in interface for managing site content. It reads metadata from your models to provide a quick, content-centric interface. You can customize list displays, filters, search fields, and inline editing.",
+                    tags: ["Built-in", "CRUD", "Customizable"],
+                    code: `# admin.py
+from django.contrib import admin
+from .models import User, Post
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'is_active', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['name', 'email']
+    list_editable = ['is_active']
+    date_hierarchy = 'created_at'
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    raw_id_fields = ['author']
+    autocomplete_fields = ['author']
+
+# Access at /admin/`
+                },
+                {
+                    title: "Django REST Framework (DRF)",
+                    icon: "fa-plug",
+                    color: "green",
+                    content: "Django REST Framework is a powerful and flexible toolkit for building Web APIs. It provides serializers for data conversion, generic views, authentication, pagination, filtering, throttling, and browsable API interface.",
+                    tags: ["API", "Serializer", "Browsable"],
+                    code: `# serializers.py
+from rest_framework import serializers
+from .models import User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+# views.py
+from rest_framework import viewsets
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filterset_fields = ['is_active']
+    search_fields = ['name', 'email']
+
+# urls.py
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+urlpatterns = router.urls`
+                },
+                {
+                    title: "Django Authentication",
+                    icon: "fa-lock",
+                    color: "green",
+                    content: "Django provides a built-in authentication system with User model, login/logout views, password hashing, session management, and permission groups. DRF adds token authentication, JWT, and OAuth support.",
+                    tags: ["Auth", "Session", "Permissions"],
+                    code: `# Built-in auth
+from django.contrib.auth import authenticate, login, logout
+
+user = authenticate(request, username='vivek', password='pass')
+if user is not None:
+    login(request, user)
+
+# DRF Token Auth
+from rest_framework.authtoken.models import Token
+token, created = Token.objects.get_or_create(user=user)
+
+# JWT with simplejwt
+from rest_framework_simplejwt.tokens import RefreshToken
+refresh = RefreshToken.for_user(user)
+access_token = str(refresh.access_token)
+
+# Permissions
+from rest_framework.permissions import IsAuthenticated
+permission_classes = [IsAuthenticated]`
+                },
+                {
+                    title: "Django Signals",
+                    icon: "fa-broadcast-tower",
+                    color: "green",
+                    content: "Django includes a 'signal dispatcher' which helps decoupled applications get notified when actions occur elsewhere in the framework. Signals allow certain senders to notify a set of receivers that some action has taken place.",
+                    tags: ["Events", "Decoupled", "Hooks"],
+                    code: `from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+
+@receiver(post_save, sender=User)
+def send_welcome_email(sender, instance, created, **kwargs):
+    if created:
+        send_mail(
+            'Welcome!',
+            f'Hello {instance.name}, welcome to our platform!',
+            'from@example.com',
+            [instance.email],
+            fail_silently=False,
+        )
+
+# Connect signal
+post_save.connect(send_welcome_email, sender=User)
+
+# Built-in signals: pre_save, post_save, pre_delete, post_delete, m2m_changed`
+                }
+            ],
+
+            flask: [
+                {
+                    title: "What is Flask?",
+                    icon: "fa-flask",
+                    color: "gray",
+                    content: "Flask is a lightweight WSGI web application framework in Python. It is designed to make getting started quick and easy, with the ability to scale up to complex applications. It is called a micro framework because it does not require particular tools or libraries.",
+                    tags: ["Micro", "Lightweight", "Flexible"],
+                    code: `# Install Flask
+# pip install flask
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, Flask!'
+
+@app.route('/user/<name>')
+def user(name):
+    return f'Hello, {name}!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# Run: python app.py`
+                },
+                {
+                    title: "Flask Routing",
+                    icon: "fa-route",
+                    color: "gray",
+                    content: "Flask uses decorators to bind functions to URLs. Routes can have variable sections which can be converted to specific types (string, int, float, path, uuid). HTTP methods can be specified for each route.",
+                    tags: ["Decorators", "Variables", "Methods"],
+                    code: `from flask import request, jsonify
+
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    return jsonify([{'id': 1, 'name': 'Vivek'}])
+
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    return jsonify(data), 201
+
+@app.route('/api/users/<int:user_id>')
+def get_user(user_id):
+    return jsonify({'id': user_id, 'name': 'Vivek'})
+
+@app.route('/api/users/<int:user_id>', methods=['PUT', 'DELETE'])
+def update_or_delete_user(user_id):
+    if request.method == 'PUT':
+        return jsonify({'message': 'Updated'})
+    return jsonify({'message': 'Deleted'})`
+                },
+                {
+                    title: "Flask Request & Response",
+                    icon: "fa-exchange-alt",
+                    color: "gray",
+                    content: "Flask provides request object to access incoming data (form data, JSON, files, headers, args). Response can be returned as strings, tuples (body, status, headers), or using make_response and jsonify.",
+                    tags: ["Request", "Response", "JSON"],
+                    code: `from flask import request, jsonify, make_response
+
+@app.route('/login', methods=['POST'])
+def login():
+    # Form data
+    username = request.form.get('username')
+    
+    # JSON data
+    data = request.get_json()
+    
+    # Query parameters
+    page = request.args.get('page', 1, type=int)
+    
+    # Headers
+    auth_header = request.headers.get('Authorization')
+    
+    # Files
+    file = request.files['document']
+    
+    # Response with status code
+    return jsonify({'token': 'abc123'}), 200
+    
+    # Custom response
+    response = make_response(jsonify({'message': 'OK'}), 200)
+    response.headers['X-Custom-Header'] = 'Value'
+    return response`
+                },
+                {
+                    title: "Flask Templates (Jinja2)",
+                    icon: "fa-paint-brush",
+                    color: "gray",
+                    content: "Flask uses Jinja2 as its template engine. Jinja2 provides powerful features like template inheritance, macros, filters, control structures, and auto-escaping. Templates are stored in the templates folder.",
+                    tags: ["Jinja2", "Inheritance", "Macros"],
+                    code: `from flask import render_template
+
+@app.route('/dashboard')
+def dashboard():
+    users = [{'name': 'Vivek', 'role': 'admin'}]
+    return render_template('dashboard.html', users=users)
+
+# templates/base.html
+# {% block content %}{% endblock %}
+
+# templates/dashboard.html
+# {% extends 'base.html' %}
+# {% block content %}
+#   {% for user in users %}
+#     <p>{{ user.name|title }} - {{ user.role|upper }}</p>
+#   {% endfor %}
+# {% endblock %}`
+                },
+                {
+                    title: "Flask Blueprints",
+                    icon: "fa-sitemap",
+                    color: "gray",
+                    content: "Blueprints are a way to organize related routes, templates, and static files. They help structure large applications by splitting them into reusable components. Blueprints are registered on the application.",
+                    tags: ["Modular", "Organization", "Scale"],
+                    code: `# auth/routes.py
+from flask import Blueprint
+
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+@auth_bp.route('/login')
+def login():
+    return 'Login Page'
+
+@auth_bp.route('/register')
+def register():
+    return 'Register Page'
+
+# app.py
+from flask import Flask
+from auth.routes import auth_bp
+
+app = Flask(__name__)
+app.register_blueprint(auth_bp)
+
+# URL: /auth/login, /auth/register`
+                },
+                {
+                    title: "Flask-SQLAlchemy",
+                    icon: "fa-database",
+                    color: "gray",
+                    content: "Flask-SQLAlchemy is an extension that adds SQLAlchemy support to Flask. It simplifies database operations with an ORM, providing a declarative base for models, session management, and query interface.",
+                    tags: ["ORM", "Database", "Models"],
+                    code: `from flask_sqlalchemy import SQLAlchemy
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True)
+    
+    def to_dict(self):
+        return {'id': self.id, 'name': self.name}
+
+# CRUD Operations
+new_user = User(name='Vivek', email='v@example.com')
+db.session.add(new_user)
+db.session.commit()
+
+users = User.query.all()
+user = User.query.filter_by(name='Vivek').first()
+User.query.get(1)  # By PK`
+                },
+                {
+                    title: "Flask-WTF & Forms",
+                    icon: "fa-check-square",
+                    color: "gray",
+                    content: "Flask-WTF integrates WTForms with Flask. It provides CSRF protection, file upload handling, and reCAPTCHA support. Forms are defined as classes with field types and validators.",
+                    tags: ["Forms", "CSRF", "Validation"],
+                    code: `from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, Length
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[
+        DataRequired(),
+        Email()
+    ])
+    password = PasswordField('Password', validators=[
+        DataRequired(),
+        Length(min=6)
+    ])
+    submit = SubmitField('Login')
+
+# In template
+# <form method="POST">
+#   {{ form.hidden_tag() }}
+#   {{ form.email.label }} {{ form.email() }}
+#   {{ form.password.label }} {{ form.password() }}
+#   {{ form.submit() }}
+# </form>`
+                },
+                {
+                    title: "Flask-Login",
+                    icon: "fa-user-lock",
+                    color: "gray",
+                    content: "Flask-Login provides user session management for Flask. It handles the common tasks of logging in, logging out, and remembering users' sessions over extended periods of time. It integrates with any authentication system.",
+                    tags: ["Session", "Auth", "User Management"],
+                    code: `from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@app.route('/login', methods=['POST'])
+def login():
+    user = User.query.filter_by(email=email).first()
+    if user and check_password(user.password, password):
+        login_user(user, remember=remember_me)
+        return redirect(url_for('dashboard'))
+
+@app.route('/protected')
+@login_required
+def protected():
+    return f'Hello, {current_user.name}!'
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))`
+                },
+                {
+                    title: "Flask-Mail & Celery",
+                    icon: "fa-envelope",
+                    color: "gray",
+                    content: "Flask-Mail provides email sending capabilities. Celery is an asynchronous task queue/job queue based on distributed message passing. Together they enable sending emails and performing background tasks.",
+                    tags: ["Email", "Background Tasks", "Async"],
+                    code: `from flask_mail import Mail, Message
+from celery import Celery
+
+# Flask-Mail setup
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+mail = Mail(app)
+
+# Celery setup
+celery = Celery(app.name, broker='redis://localhost:6379/0')
+
+@celery.task
+def send_async_email(to, subject, body):
+    with app.app_context():
+        msg = Message(subject, recipients=[to], body=body)
+        mail.send(msg)
+
+# Trigger async task
+send_async_email.delay('user@example.com', 'Welcome!', 'Hello!')
+
+# Check task status
+task = send_async_email.delay(...)
+print(task.id)  # Task ID
+print(task.status)  # PENDING, SUCCESS, FAILURE`
+                }
+            ],
+
+            fastapi: [
+                {
+                    title: "What is FastAPI?",
+                    icon: "fa-bolt",
+                    color: "teal",
+                    content: "FastAPI is a modern, fast (high-performance) web framework for building APIs with Python 3.7+ based on standard Python type hints. It is one of the fastest Python frameworks available, on par with Node.js and Go. It provides automatic API documentation with Swagger UI and ReDoc.",
+                    tags: ["Modern", "Fast", "Type Hints"],
+                    code: `# Install FastAPI
+# pip install fastapi uvicorn
+
+from fastapi import FastAPI
+
+app = FastAPI(title="My API", version="1.0")
+
+@app.get("/")
+async def root():
+    return {"message": "Hello FastAPI!"}
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: int, q: str = None):
+    return {"item_id": item_id, "q": q}
+
+# Run: uvicorn main:app --reload
+# Docs: http://localhost:8000/docs (Swagger UI)
+# ReDoc: http://localhost:8000/redoc`
+                },
+                {
+                    title: "FastAPI Path Operations",
+                    icon: "fa-route",
+                    color: "teal",
+                    content: "FastAPI uses Python type hints for automatic request validation, serialization, and documentation. Path parameters, query parameters, request body, and form data are all handled through type annotations.",
+                    tags: ["Type Hints", "Validation", "Auto-docs"],
+                    code: `from fastapi import FastAPI, Path, Query, Body
+from typing import Optional, List
+
+@app.get("/users/{user_id}")
+async def get_user(
+    user_id: int = Path(..., gt=0, description="User ID"),
+    include_posts: bool = Query(False, description="Include posts"),
+    fields: Optional[List[str]] = Query(None)
+):
+    return {"user_id": user_id, "include_posts": include_posts}
+
+@app.post("/users")
+async def create_user(
+    name: str = Body(..., min_length=2),
+    email: str = Body(..., regex=r"^[^@]+@[^@]+\.[^@]+$"),
+    age: Optional[int] = Body(None, ge=0, le=150)
+):
+    return {"name": name, "email": email, "age": age}`
+                },
+                {
+                    title: "Pydantic Models",
+                    icon: "fa-check-circle",
+                    color: "teal",
+                    content: "Pydantic is the data validation library used by FastAPI. Models are defined as classes inheriting from BaseModel. They provide data validation, serialization, JSON Schema generation, and automatic documentation.",
+                    tags: ["Validation", "Schema", "Serialization"],
+                    code: `from pydantic import BaseModel, Field, EmailStr, validator
+from typing import Optional, List
+from datetime import datetime
+
+class Address(BaseModel):
+    street: str
+    city: str
+    zip_code: str
+
+class User(BaseModel):
+    id: Optional[int] = None
+    name: str = Field(..., min_length=2, max_length=50)
+    email: EmailStr
+    age: int = Field(..., ge=0, le=150)
+    is_active: bool = True
+    address: Optional[Address] = None
+    tags: List[str] = []
+    created_at: datetime = Field(default_factory=datetime.now)
+    
+    @validator('name')
+    def name_must_be_capitalized(cls, v):
+        return v.title()
+
+# Usage
+user = User(name="vivek", email="v@example.com", age=25)
+print(user.json())  # Auto-serialized JSON`
+                },
+                {
+                    title: "FastAPI Dependency Injection",
+                    icon: "fa-syringe",
+                    color: "teal",
+                    content: "FastAPI has a powerful dependency injection system. Dependencies are functions that can be reused across path operations. They can access databases, authenticate users, validate tokens, and more. Dependencies can have sub-dependencies.",
+                    tags: ["DI", "Reusable", "Nested"],
+                    code: `from fastapi import Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
+# Database dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Auth dependency
+async def get_current_user(token: str = Header(...)):
+    user = verify_token(token)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+    return user
+
+# Usage in route
+@app.get("/profile")
+async def get_profile(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    return current_user`
+                },
+                {
+                    title: "FastAPI Async & Background Tasks",
+                    icon: "fa-tasks",
+                    color: "teal",
+                    content: "FastAPI natively supports async/await for high performance. BackgroundTasks allow running functions after returning a response, useful for email sending, logging, or processing data without blocking the client.",
+                    tags: ["Async", "Background", "Performance"],
+                    code: `from fastapi import BackgroundTasks
+import asyncio
+
+async def send_email(email: str, message: str):
+    await asyncio.sleep(2)  # Simulate email sending
+    print(f"Email sent to {email}")
+
+@app.post("/register")
+async def register(
+    user: UserCreate,
+    background_tasks: BackgroundTasks
+):
+    # Save user to DB
+    new_user = await create_user(user)
+    
+    # Run in background after response
+    background_tasks.add_task(
+        send_email,
+        user.email,
+        "Welcome to our platform!"
+    )
+    
+    return {"message": "User registered", "user_id": new_user.id}
+
+# Async database operations
+@app.get("/users")
+async def get_users(db: AsyncSession = Depends(get_async_db)):
+    result = await db.execute(select(User))
+    return result.scalars().all()`
+                },
+                {
+                    title: "FastAPI Authentication & Security",
+                    icon: "fa-shield-alt",
+                    color: "teal",
+                    content: "FastAPI provides built-in security utilities for OAuth2 with Password Bearer, JWT tokens, API keys, and HTTP Basic auth. It integrates seamlessly with python-jose for JWT and passlib for password hashing.",
+                    tags: ["OAuth2", "JWT", "Security"],
+                    code: `from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Hash password
+hashed_password = pwd_context.hash("password123")
+
+# Verify password
+is_valid = pwd_context.verify("password123", hashed_password)
+
+# Create JWT token
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=30)
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm="HS256")
+
+# Protected route
+@app.get("/protected")
+async def protected(token: str = Depends(oauth2_scheme)):
+    return {"message": "Access granted"}`
+                },
+                {
+                    title: "FastAPI File Uploads",
+                    icon: "fa-file-upload",
+                    color: "teal",
+                    content: "FastAPI supports file uploads using UploadFile. It provides metadata like filename, content_type, and file object. Large files are stored in memory up to a limit, then spilled to disk. Multiple files can be uploaded at once.",
+                    tags: ["Upload", "Files", "Form"],
+                    code: `from fastapi import File, UploadFile
+from fastapi.responses import FileResponse
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    # File metadata
+    print(f"Filename: {file.filename}")
+    print(f"Content-Type: {file.content_type}")
+    
+    # Save file
+    contents = await file.read()
+    with open(f"uploads/{file.filename}", "wb") as f:
+        f.write(contents)
+    
+    return {"filename": file.filename, "size": len(contents)}
+
+# Multiple files
+@app.post("/upload-multiple")
+async def upload_multiple(files: List[UploadFile] = File(...)):
+    return [{"name": f.filename} for f in files]
+
+# Serve file
+@app.get("/files/{filename}")
+async def get_file(filename: str):
+    return FileResponse(f"uploads/{filename}")`
+                },
+                {
+                    title: "FastAPI Middleware & CORS",
+                    icon: "fa-filter",
+                    color: "teal",
+                    content: "FastAPI allows adding middleware for request/response processing. CORS (Cross-Origin Resource Sharing) can be configured using CORSMiddleware. Custom middleware can be added for logging, authentication, timing, etc.",
+                    tags: ["Middleware", "CORS", "Processing"],
+                    code: `from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+import time
+
+# CORS setup
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Custom middleware
+class TimingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        start = time.time()
+        response = await call_next(request)
+        duration = time.time() - start
+        response.headers["X-Response-Time"] = str(duration)
+        print(f"{request.method} {request.url.path} took {duration:.3f}s")
+        return response
+
+app.add_middleware(TimingMiddleware)`
+                },
+                {
+                    title: "FastAPI Testing",
+                    icon: "fa-vial",
+                    color: "teal",
+                    content: "FastAPI provides TestClient based on HTTPX for testing. It allows making requests to your application without running a server. Pytest is commonly used with FastAPI for unit and integration testing.",
+                    tags: ["TestClient", "Pytest", "Integration"],
+                    code: `from fastapi.testclient import TestClient
+import pytest
+
+client = TestClient(app)
+
+def test_read_main():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello FastAPI!"}
+
+def test_create_user():
+    response = client.post(
+        "/users",
+        json={"name": "Vivek", "email": "v@example.com", "age": 25}
+    )
+    assert response.status_code == 201
+    data = response.json()
+    assert data["name"] == "Vivek"
+    assert "id" in data
+
+# Async tests with pytest-asyncio
+@pytest.mark.asyncio
+async def test_async_operation():
+    result = await some_async_function()
+    assert result is not None`
+                },
+                {
+                    title: "FastAPI WebSockets",
+                    icon: "fa-plug",
+                    color: "teal",
+                    content: "FastAPI supports WebSockets for bidirectional communication. It provides a WebSocket class for handling connections, sending/receiving text and binary data, and managing connection state. Perfect for real-time features.",
+                    tags: ["WebSocket", "Real-time", "Bidirectional"],
+                    code: `from fastapi import WebSocket, WebSocketDisconnect
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+    
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+    
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+    
+    async def broadcast(self, message: str):
+        for connection in self.active_connections:
+            await connection.send_text(message)
+
+manager = ConnectionManager()
+
+@app.websocket("/ws/{client_id}")
+async def websocket_endpoint(websocket: WebSocket, client_id: int):
+    await manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            await manager.broadcast(f"Client {client_id}: {data}")
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)`
+                }
+            ],
+
+            advanced: [
+                {
+                    title: "Asyncio & Async/Await",
+                    icon: "fa-sync",
+                    color: "purple",
+                    content: "Asyncio is a library to write concurrent code using the async/await syntax. It is used as a foundation for multiple Python asynchronous frameworks. Asyncio provides high-performance network and web-servers, database connection libraries, distributed task queues, etc.",
+                    tags: ["Concurrency", "Event Loop", "Coroutines"],
+                    code: `import asyncio
+
+async def fetch_data(url):
+    print(f"Fetching {url}...")
+    await asyncio.sleep(1)  # Simulate network delay
+    return f"Data from {url}"
+
+async def main():
+    # Run sequentially
+    result1 = await fetch_data("api/users")
+    result2 = await fetch_data("api/posts")
+    
+    # Run concurrently
+    results = await asyncio.gather(
+        fetch_data("api/users"),
+        fetch_data("api/posts"),
+        fetch_data("api/comments")
+    )
+    print(results)
+
+# Run event loop
+asyncio.run(main())
+
+# Create task
+task = asyncio.create_task(fetch_data("api/data"))
+result = await task`
+                },
+                {
+                    title: "GIL (Global Interpreter Lock)",
+                    icon: "fa-lock",
+                    color: "purple",
+                    content: "The Global Interpreter Lock (GIL) is a mutex that protects access to Python objects, preventing multiple threads from executing Python bytecodes at once. This means only one thread can execute Python code at a time, even on multi-core processors. The GIL is necessary because CPython's memory management is not thread-safe.",
+                    tags: ["Threading", "CPython", "Limitation"],
+                    code: `# GIL Impact:
+# - Only one thread executes Python code at a time
+# - Multi-threading doesn't speed up CPU-bound tasks
+# - I/O-bound tasks benefit from threading (GIL released during I/O)
+
+# Solutions for CPU-bound tasks:
+
+# 1. Multiprocessing (separate Python processes)
+from multiprocessing import Pool
+
+def square(n):
+    return n ** 2
+
+with Pool(4) as pool:
+    results = pool.map(square, range(1000))
+
+# 2. Use C extensions (NumPy, Cython) that release GIL
+# 3. Use alternative implementations (Jython, IronPython)
+
+# I/O-bound: Threading works fine
+import threading
+import requests
+
+def fetch_url(url):
+    requests.get(url)  # GIL released during I/O
+
+threads = [threading.Thread(target=fetch_url, args=(url,)) 
+           for url in urls]
+for t in threads: t.start()
+for t in threads: t.join()`
+                },
+                {
+                    title: "Multithreading vs Multiprocessing",
+                    icon: "fa-layer-group",
+                    color: "purple",
+                    content: "Multithreading is best for I/O-bound tasks (network, file operations) because threads share memory and the GIL is released during I/O. Multiprocessing is best for CPU-bound tasks because each process has its own Python interpreter and memory space, bypassing the GIL entirely.",
+                    tags: ["Threading", "Processes", "Performance"],
+                    code: `import threading
+import multiprocessing
+import time
+
+# Multithreading - Good for I/O
+def io_task():
+    time.sleep(1)  # Simulates I/O
+
+threads = [threading.Thread(target=io_task) for _ in range(10)]
+start = time.time()
+for t in threads: t.start()
+for t in threads: t.join()
+print(f"Threads: {time.time() - start:.2f}s")  # ~1s
+
+# Multiprocessing - Good for CPU
+def cpu_task(n):
+    return sum(i * i for i in range(n))
+
+processes = [multiprocessing.Process(target=cpu_task, args=(1000000,)) 
+             for _ in range(4)]
+start = time.time()
+for p in processes: p.start()
+for p in processes: p.join()
+print(f"Processes: {time.time() - start:.2f}s")  # Faster on multi-core`
+                },
+                {
+                    title: "Python Memory Management",
+                    icon: "fa-memory",
+                    color: "purple",
+                    content: "Python uses automatic memory management with garbage collection. It uses reference counting as the primary mechanism and a generational garbage collector for cyclic references. Objects are stored in private heap space. The gc module allows tuning the garbage collector.",
+                    tags: ["GC", "Reference Counting", "Heap"],
+                    code: `import sys
+import gc
+
+# Reference counting
+a = [1, 2, 3]
+print(sys.getrefcount(a))  # 2 (a + getrefcount argument)
+
+b = a
+print(sys.getrefcount(a))  # 3
+
+del b
+print(sys.getrefcount(a))  # 2
+
+# Garbage collection for cycles
+class Node:
+    def __init__(self):
+        self.next = None
+
+node1 = Node()
+node2 = Node()
+node1.next = node2
+node2.next = node1  # Circular reference
+
+# Force garbage collection
+gc.collect()
+
+# Generational GC stats
+print(gc.get_count())  # Objects in each generation
+print(gc.get_threshold())  # Collection thresholds
+
+# Disable GC (use carefully)
+# gc.disable()`
+                },
+                {
+                    title: "Context Managers",
+                    icon: "fa-door-open",
+                    color: "purple",
+                    content: "Context managers allow you to allocate and release resources precisely when you want to. The most widely used example is the with statement. You can create custom context managers using __enter__ and __exit__ methods or the contextlib module.",
+                    tags: ["With", "Resources", "Cleanup"],
+                    code: `# Built-in context manager
+with open('file.txt', 'r') as f:
+    content = f.read()
+# File automatically closed
+
+# Custom context manager (class)
+class DatabaseConnection:
+    def __init__(self, connection_string):
+        self.connection_string = connection_string
+    
+    def __enter__(self):
+        self.conn = create_connection(self.connection_string)
+        return self.conn
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.conn.close()
+        return False  # Don't suppress exceptions
+
+with DatabaseConnection("postgres://...") as conn:
+    cursor = conn.cursor()
+
+# Using contextlib
+from contextlib import contextmanager
+
+@contextmanager
+def managed_resource():
+    resource = acquire_resource()
+    try:
+        yield resource
+    finally:
+        release_resource(resource)`
+                },
+                {
+                    title: "Metaclasses",
+                    icon: "fa-cogs",
+                    color: "purple",
+                    content: "Metaclasses are the 'classes of classes'. They define how a class behaves. A class is an instance of a metaclass. The default metaclass is type. Metaclasses are used for ORMs, API frameworks, and enforcing coding standards across a project.",
+                    tags: ["Meta", "Class Factory", "Advanced"],
+                    code: `class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    def __init__(self):
+        self.connection = None
+
+db1 = Database()
+db2 = Database()
+print(db1 is db2)  # True - Same instance
+
+# Using type to create class dynamically
+MyClass = type('MyClass', (), {'x': 10})
+obj = MyClass()
+print(obj.x)  # 10`
+                },
+                {
+                    title: "Python Type Hints",
+                    icon: "fa-tag",
+                    color: "purple",
+                    content: "Type hints were introduced in Python 3.5 via PEP 484. They are not enforced at runtime but help static type checkers (mypy), IDEs, and documentation. They improve code readability and catch bugs early in development.",
+                    tags: ["Typing", "Hints", "Mypy"],
+                    code: `from typing import List, Dict, Optional, Union, Callable, Any
+
+def greet(name: str) -> str:
+    return f"Hello, {name}"
+
+def process_users(users: List[Dict[str, Any]]) -> Optional[int]:
+    if not users:
+        return None
+    return len(users)
+
+# Union types
+def parse_value(value: Union[str, int]) -> str:
+    return str(value)
+
+# Callable
+def executor(func: Callable[[int], str], value: int) -> str:
+    return func(value)
+
+# Generic types
+from typing import TypeVar
+T = TypeVar('T')
+
+def first(items: List[T]) -> Optional[T]:
+    return items[0] if items else None`
+                },
+                {
+                    title: "Python Dunder Methods",
+                    icon: "fa-magic",
+                    color: "purple",
+                    content: "Dunder (double underscore) methods are special methods in Python that start and end with double underscores. They allow customizing class behavior for built-in operations like arithmetic, comparison, string representation, iteration, and context management.",
+                    tags: ["Magic Methods", "Operator Overloading", "Protocol"],
+                    code: `class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __str__(self):
+        return f"Vector({self.x}, {self.y})"
+    
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
+    
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+    
+    def __len__(self):
+        return int((self.x**2 + self.y**2) ** 0.5)
+    
+    def __getitem__(self, index):
+        return [self.x, self.y][index]
+
+v1 = Vector(1, 2)
+v2 = Vector(3, 4)
+print(v1 + v2)  # Vector(4, 6)
+print(len(v1))  # 2`
+                }
+            ],
+
+            libraries: [
+                {
+                    title: "NumPy",
+                    icon: "fa-calculator",
+                    color: "orange",
+                    content: "NumPy is the fundamental package for scientific computing in Python. It provides support for large, multi-dimensional arrays and matrices, along with a collection of mathematical functions to operate on these arrays. It is the foundation of most scientific computing in Python.",
+                    tags: ["Arrays", "Math", "Scientific"],
+                    code: `import numpy as np
+
+# Create arrays
+arr = np.array([1, 2, 3, 4, 5])
+zeros = np.zeros((3, 3))
+ones = np.ones((2, 4))
+range_arr = np.arange(0, 10, 2)  # [0, 2, 4, 6, 8]
+
+# Array operations
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+print(a + b)        # [5, 7, 9]
+print(a * 2)        # [2, 4, 6]
+print(np.dot(a, b)) # 32 (dot product)
+
+# 2D arrays
+matrix = np.array([[1, 2], [3, 4]])
+print(matrix.T)     # Transpose
+print(np.linalg.inv(matrix))  # Inverse
+print(np.mean(matrix))  # Mean
+print(np.sum(matrix, axis=0))  # Sum along axis`
+                },
+                {
+                    title: "Pandas",
+                    icon: "fa-table",
+                    color: "orange",
+                    content: "Pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language. It provides DataFrame and Series data structures for handling tabular data.",
+                    tags: ["DataFrame", "Analysis", "CSV"],
+                    code: `import pandas as pd
+
+# Create DataFrame
+data = {
+    'Name': ['Vivek', 'Rahul', 'Priya'],
+    'Age': [25, 30, 28],
+    'City': ['Mumbai', 'Delhi', 'Bangalore']
+}
+df = pd.DataFrame(data)
+
+# Read CSV
+df = pd.read_csv('data.csv')
+
+# Basic operations
+print(df.head())          # First 5 rows
+print(df.describe())      # Statistics
+print(df['Age'].mean())   # Average age
+
+# Filtering
+adults = df[df['Age'] >= 25]
+
+# Group by
+grouped = df.groupby('City').agg({'Age': 'mean'})
+
+# Merge
+df2 = pd.DataFrame({'Name': ['Vivek'], 'Salary': [50000]})
+merged = pd.merge(df, df2, on='Name', how='left')`
+                },
+                {
+                    title: "Requests",
+                    icon: "fa-paper-plane",
+                    color: "orange",
+                    content: "Requests is a simple, yet elegant HTTP library for Python. It allows you to send HTTP/1.1 requests extremely easily. There's no need to manually add query strings to your URLs, or to form-encode your POST data.",
+                    tags: ["HTTP", "API", "Client"],
+                    code: `import requests
+
+# GET request
+response = requests.get('https://api.example.com/users')
+print(response.status_code)  # 200
+print(response.json())       # JSON data
+
+# POST request
+payload = {'name': 'Vivek', 'email': 'v@example.com'}
+response = requests.post(
+    'https://api.example.com/users',
+    json=payload,
+    headers={'Authorization': 'Bearer token123'}
+)
+
+# With parameters
+response = requests.get(
+    'https://api.example.com/search',
+    params={'q': 'python', 'page': 1}
+)
+
+# Handle errors
+try:
+    response = requests.get(url, timeout=5)
+    response.raise_for_status()
+except requests.exceptions.RequestException as e:
+    print(f"Error: {e}")`
+                },
+                {
+                    title: "SQLAlchemy",
+                    icon: "fa-database",
+                    color: "orange",
+                    content: "SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL. It provides a full suite of well known enterprise-level persistence patterns.",
+                    tags: ["ORM", "Database", "SQL"],
+                    code: `from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+Base = declarative_base()
+engine = create_engine('sqlite:///app.db')
+Session = sessionmaker(bind=engine)
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    email = Column(String(100), unique=True)
+
+Base.metadata.create_all(engine)
+
+# CRUD
+session = Session()
+new_user = User(name='Vivek', email='v@example.com')
+session.add(new_user)
+session.commit()
+
+users = session.query(User).all()
+user = session.query(User).filter_by(name='Vivek').first()
+session.delete(user)
+session.commit()`
+                },
+                {
+                    title: "Celery",
+                    icon: "fa-tasks",
+                    color: "orange",
+                    content: "Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation but supports scheduling as well. The execution units, called tasks, are executed concurrently on a single or more worker servers.",
+                    tags: ["Queue", "Background", "Distributed"],
+                    code: `from celery import Celery
+
+app = Celery('tasks', broker='redis://localhost:6379/0')
+
+@app.task
+def add(x, y):
+    return x + y
+
+@app.task(bind=True)
+def send_email(self, to, subject):
+    try:
+        # Send email logic
+        pass
+    except Exception as exc:
+        # Retry after 60 seconds
+        raise self.retry(exc=exc, countdown=60)
+
+# Call task
+result = add.delay(4, 4)
+print(result.id)       # Task ID
+print(result.status)   # PENDING
+print(result.get())    # 8 (wait for result)
+
+# Periodic tasks
+from celery.schedules import crontab
+app.conf.beat_schedule = {
+    'daily-report': {
+        'task': 'tasks.generate_report',
+        'schedule': crontab(hour=9, minute=0),
+    },
+}`
+                },
+                {
+                    title: "Pillow (PIL)",
+                    icon: "fa-image",
+                    color: "orange",
+                    content: "Pillow is the friendly PIL fork by Alex Clark and Contributors. PIL is the Python Imaging Library. It adds image processing capabilities to your Python interpreter, supporting many file formats and providing powerful image processing and graphics capabilities.",
+                    tags: ["Image", "Processing", "Graphics"],
+                    code: `from PIL import Image, ImageFilter, ImageDraw
+
+# Open image
+img = Image.open('photo.jpg')
+
+# Basic operations
+print(img.size)      # (width, height)
+print(img.mode)      # RGB, RGBA, L, etc.
+
+# Resize
+thumb = img.resize((200, 200))
+
+# Crop
+cropped = img.crop((100, 100, 400, 400))
+
+# Filters
+blurred = img.filter(ImageFilter.BLUR)
+edges = img.filter(ImageFilter.FIND_EDGES)
+
+# Draw
+draw = ImageDraw.Draw(img)
+draw.text((10, 10), "Hello", fill='red')
+
+# Save
+img.save('output.png', 'PNG')`
+                },
+                {
+                    title: "BeautifulSoup & Web Scraping",
+                    icon: "fa-spider",
+                    color: "orange",
+                    content: "BeautifulSoup is a Python library for pulling data out of HTML and XML files. It works with your favorite parser to provide idiomatic ways of navigating, searching, and modifying the parse tree. Combined with requests, it's a powerful web scraping tool.",
+                    tags: ["HTML", "Scraping", "Parsing"],
+                    code: `from bs4 import BeautifulSoup
+import requests
+
+# Fetch page
+response = requests.get('https://example.com')
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find elements
+title = soup.find('title').text
+paragraphs = soup.find_all('p')
+
+# CSS selectors
+items = soup.select('.item-class')
+links = soup.select('a[href]')
+
+# Extract data
+for item in items:
+    name = item.find('h2').text
+    price = item.find('span', class_='price').text
+    print(f"{name}: {price}")
+
+# Navigate
+first_div = soup.find('div')
+children = first_div.findChildren()
+parent = first_div.findParent()`
+                },
+                {
+                    title: "Pytest",
+                    icon: "fa-vial",
+                    color: "orange",
+                    content: "Pytest is a mature full-featured Python testing tool that helps you write better programs. It provides easy syntax for writing tests, fixtures for setup/teardown, parametrization for running tests with different inputs, and powerful plugins.",
+                    tags: ["Testing", "Fixtures", "Parametrize"],
+                    code: `import pytest
+
+# Simple test
+def test_addition():
+    assert 1 + 1 == 2
+
+# Fixtures
+@pytest.fixture
+def user():
+    return {'name': 'Vivek', 'age': 25}
+
+def test_user_name(user):
+    assert user['name'] == 'Vivek'
+
+# Parametrize
+@pytest.mark.parametrize("a,b,expected", [
+    (1, 1, 2),
+    (2, 3, 5),
+    (10, 20, 30),
+])
+def test_add(a, b, expected):
+    assert a + b == expected
+
+# Class-based tests
+class TestDatabase:
+    def setup_method(self):
+        self.db = create_test_db()
+    
+    def teardown_method(self):
+        self.db.close()
+    
+    def test_insert(self):
+        assert self.db.insert({'name': 'Test'})`
+                }
+            ],
+
+            http: [
+                { code: "100", name: "Continue", desc: "Server received request headers, client should proceed.", type: "1xx" },
+                { code: "101", name: "Switching Protocols", desc: "Server is switching to a different protocol.", type: "1xx" },
+                { code: "102", name: "Processing", desc: "Server has received and is processing the request.", type: "1xx" },
+                { code: "103", name: "Early Hints", desc: "Used to return some response headers before final response.", type: "1xx" },
+                { code: "200", name: "OK", desc: "Request succeeded. Standard response for successful HTTP requests.", type: "2xx" },
+                { code: "201", name: "Created", desc: "Request succeeded and a new resource was created.", type: "2xx" },
+                { code: "202", name: "Accepted", desc: "Request accepted for processing but not completed yet.", type: "2xx" },
+                { code: "203", name: "Non-Authoritative Information", desc: "Server is a transforming proxy and received 200 OK.", type: "2xx" },
+                { code: "204", name: "No Content", desc: "Server processed request but no content to return.", type: "2xx" },
+                { code: "205", name: "Reset Content", desc: "Server processed request, user should reset document view.", type: "2xx" },
+                { code: "206", name: "Partial Content", desc: "Server is delivering only part of the resource.", type: "2xx" },
+                { code: "207", name: "Multi-Status", desc: "Message body contains status for multiple resources.", type: "2xx" },
+                { code: "208", name: "Already Reported", desc: "Members of a DAV binding have already been enumerated.", type: "2xx" },
+                { code: "226", name: "IM Used", desc: "Server has fulfilled a GET request for the resource.", type: "2xx" },
+                { code: "300", name: "Multiple Choices", desc: "Multiple options for the resource.", type: "3xx" },
+                { code: "301", name: "Moved Permanently", desc: "Resource has been moved to a new URL permanently.", type: "3xx" },
+                { code: "302", name: "Found", desc: "Resource temporarily located at a different URL.", type: "3xx" },
+                { code: "303", name: "See Other", desc: "Response to the request can be found at another URL.", type: "3xx" },
+                { code: "304", name: "Not Modified", desc: "Resource has not been modified since last request.", type: "3xx" },
+                { code: "305", name: "Use Proxy", desc: "Resource must be accessed through the proxy.", type: "3xx" },
+                { code: "307", name: "Temporary Redirect", desc: "Resource temporarily located at a different URL.", type: "3xx" },
+                { code: "308", name: "Permanent Redirect", desc: "Resource has been permanently moved to a new URL.", type: "3xx" },
+                { code: "400", name: "Bad Request", desc: "Server cannot process the request due to client error.", type: "4xx" },
+                { code: "401", name: "Unauthorized", desc: "Authentication is required and has failed or not provided.", type: "4xx" },
+                { code: "402", name: "Payment Required", desc: "Reserved for future use (digital payments).", type: "4xx" },
+                { code: "403", name: "Forbidden", desc: "Server understood request but refuses to authorize it.", type: "4xx" },
+                { code: "404", name: "Not Found", desc: "Requested resource could not be found on server.", type: "4xx" },
+                { code: "405", name: "Method Not Allowed", desc: "HTTP method is not supported for the resource.", type: "4xx" },
+                { code: "406", name: "Not Acceptable", desc: "Server cannot generate content acceptable to client.", type: "4xx" },
+                { code: "407", name: "Proxy Authentication Required", desc: "Client must authenticate with the proxy first.", type: "4xx" },
+                { code: "408", name: "Request Timeout", desc: "Server timed out waiting for the client request.", type: "4xx" },
+                { code: "409", name: "Conflict", desc: "Request conflicts with current state of the server.", type: "4xx" },
+                { code: "410", name: "Gone", desc: "Resource is permanently removed and will not return.", type: "4xx" },
+                { code: "411", name: "Length Required", desc: "Server requires Content-Length header.", type: "4xx" },
+                { code: "412", name: "Precondition Failed", desc: "Server does not meet preconditions in headers.", type: "4xx" },
+                { code: "413", name: "Payload Too Large", desc: "Request entity is larger than server can process.", type: "4xx" },
+                { code: "414", name: "URI Too Long", desc: "URI provided was too long for server to process.", type: "4xx" },
+                { code: "415", name: "Unsupported Media Type", desc: "Media format not supported by the server.", type: "4xx" },
+                { code: "416", name: "Range Not Satisfiable", desc: "Range header field cannot be fulfilled.", type: "4xx" },
+                { code: "417", name: "Expectation Failed", desc: "Expect header field cannot be met by server.", type: "4xx" },
+                { code: "500", name: "Internal Server Error", desc: "Server encountered an unexpected condition.", type: "5xx" },
+                { code: "501", name: "Not Implemented", desc: "Server does not support the functionality required.", type: "5xx" },
+                { code: "502", name: "Bad Gateway", desc: "Server received invalid response from upstream server.", type: "5xx" },
+                { code: "503", name: "Service Unavailable", desc: "Server is temporarily overloaded or under maintenance.", type: "5xx" },
+                { code: "504", name: "Gateway Timeout", desc: "Server did not receive timely response from upstream.", type: "5xx" },
+                { code: "505", name: "HTTP Version Not Supported", desc: "Server does not support the HTTP protocol version.", type: "5xx" },
+                { code: "506", name: "Variant Also Negotiates", desc: "Transparent content negotiation configuration error.", type: "5xx" },
+                { code: "507", name: "Insufficient Storage", desc: "Server is unable to store the representation needed.", type: "5xx" },
+                { code: "508", name: "Loop Detected", desc: "Server detected an infinite loop while processing.", type: "5xx" },
+                { code: "510", name: "Not Extended", desc: "Further extensions to the request are required.", type: "5xx" },
+                { code: "511", name: "Network Authentication Required", desc: "Client needs to authenticate to gain network access.", type: "5xx" }
+            ]
+        };
+
+        // Render Functions
+        function renderCard(topic, category) {
+            const colorClasses = {
+                blue: 'bg-blue-50 border-blue-200 text-blue-800',
+                green: 'bg-green-50 border-green-200 text-green-800',
+                gray: 'bg-gray-50 border-gray-200 text-gray-800',
+                teal: 'bg-teal-50 border-teal-200 text-teal-800',
+                purple: 'bg-purple-50 border-purple-200 text-purple-800',
+                orange: 'bg-orange-50 border-orange-200 text-orange-800',
+                red: 'bg-red-50 border-red-200 text-red-800'
+            };
+
+            const iconColors = {
+                blue: 'text-blue-600 bg-blue-100',
+                green: 'text-green-600 bg-green-100',
+                gray: 'text-gray-600 bg-gray-100',
+                teal: 'text-teal-600 bg-teal-100',
+                purple: 'text-purple-600 bg-purple-100',
+                orange: 'text-orange-600 bg-orange-100',
+                red: 'text-red-600 bg-red-100'
+            };
+
+            return `
+                <div class="card bg-white rounded-xl shadow-sm border border-gray-200 card-hover overflow-hidden relative" data-category="${category}">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg ${iconColors[topic.color]} flex items-center justify-center">
+                                    <i class="fas ${topic.icon}"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900">${topic.title}</h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">${topic.content}</p>
+                        ${topic.code ? `
+                        <div class="code-block mb-4">
+                            <pre class="text-xs text-gray-300 font-mono overflow-x-auto"><code>${escapeHtml(topic.code)}</code></pre>
+                        </div>
+                        ` : ''}
+                        <div class="flex flex-wrap gap-2">
+                            ${topic.tags.map(tag => `
+                                <span class="px-2 py-1 rounded-md text-xs font-medium ${colorClasses[topic.color]}">${tag}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHttpCard(status) {
+            const typeColors = {
+                '1xx': 'bg-blue-50 border-blue-200 text-blue-700',
+                '2xx': 'bg-green-50 border-green-200 text-green-700',
+                '3xx': 'bg-yellow-50 border-yellow-200 text-yellow-700',
+                '4xx': 'bg-red-50 border-red-200 text-red-700',
+                '5xx': 'bg-purple-50 border-purple-200 text-purple-700'
+            };
+
+            const badgeColors = {
+                '1xx': 'bg-blue-100 text-blue-800',
+                '2xx': 'bg-green-100 text-green-800',
+                '3xx': 'bg-yellow-100 text-yellow-800',
+                '4xx': 'bg-red-100 text-red-800',
+                '5xx': 'bg-purple-100 text-purple-800'
+            };
+
+            return `
+                <div class="card bg-white rounded-lg shadow-sm border border-gray-200 card-hover overflow-hidden status-code-${status.type}" data-category="http">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-2xl font-bold font-mono ${typeColors[status.type].split(' ')[2]}">${status.code}</span>
+                            <span class="px-2 py-1 rounded text-xs font-bold ${badgeColors[status.type]}">${status.type}</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-900 mb-1">${status.name}</h4>
+                        <p class="text-xs text-gray-500">${status.desc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        function init() {
+            document.getElementById('python-grid').innerHTML = topics.python.map(t => renderCard(t, 'python')).join('');
+            document.getElementById('django-grid').innerHTML = topics.django.map(t => renderCard(t, 'django')).join('');
+            document.getElementById('flask-grid').innerHTML = topics.flask.map(t => renderCard(t, 'flask')).join('');
+            document.getElementById('fastapi-grid').innerHTML = topics.fastapi.map(t => renderCard(t, 'fastapi')).join('');
+            document.getElementById('advanced-grid').innerHTML = topics.advanced.map(t => renderCard(t, 'advanced')).join('');
+            document.getElementById('libraries-grid').innerHTML = topics.libraries.map(t => renderCard(t, 'libraries')).join('');
+            document.getElementById('http-grid').innerHTML = topics.http.map(s => renderHttpCard(s)).join('');
+
+            const totalTopics = topics.python.length + topics.django.length + topics.flask.length + 
+                              topics.fastapi.length + topics.advanced.length + topics.libraries.length + topics.http.length;
+            document.getElementById('totalTopics').textContent = totalTopics;
+            document.getElementById('totalQuestions').textContent = totalTopics;
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = '';
+                    if (searchTerm) {
+                        highlightText(card, searchTerm);
+                    } else {
+                        removeHighlight(card);
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.card[style="display: none;"]');
+                const totalCards = section.querySelectorAll('.card');
+                if (visibleCards.length === totalCards.length && searchTerm) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = '';
+                }
+            });
+        });
+
+        function highlightText(element, term) {
+            removeHighlight(element);
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+
+            nodes.forEach(node => {
+                if (node.parentElement.tagName === 'CODE') return;
+                const text = node.textContent;
+                if (text.toLowerCase().includes(term)) {
+                    const regex = new RegExp(`(${term})`, 'gi');
+                    const span = document.createElement('span');
+                    span.innerHTML = text.replace(regex, '<mark class="search-highlight">$1</mark>');
+                    node.parentNode.replaceChild(span, node);
+                }
+            });
+        }
+
+        function removeHighlight(element) {
+            const marks = element.querySelectorAll('mark');
+            marks.forEach(mark => {
+                const parent = mark.parentNode;
+                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                parent.normalize();
+            });
+        }
+
+        // Category filter
+        function filterCategory(category) {
+            const sections = document.querySelectorAll('.category-section');
+            const navBtns = document.querySelectorAll('.nav-btn');
+
+            navBtns.forEach(btn => {
+                btn.classList.remove('text-blue-600', 'text-green-600', 'text-gray-600', 'text-teal-500', 'text-purple-600', 'text-orange-500', 'text-red-500');
+                btn.classList.add('text-gray-600');
+            });
+
+            if (category === 'all') {
+                sections.forEach(s => s.style.display = '');
+                navBtns[0].classList.remove('text-gray-600');
+                navBtns[0].classList.add('text-blue-600');
+            } else {
+                sections.forEach(s => {
+                    s.style.display = s.dataset.category === category ? '' : 'none';
+                });
+                const activeBtn = document.querySelector(`button[onclick="filterCategory('${category}')"]`);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-gray-600');
+                    const colorMap = {
+                        'python': 'text-blue-600',
+                        'django': 'text-green-600',
+                        'flask': 'text-gray-600',
+                        'fastapi': 'text-teal-500',
+                        'advanced': 'text-purple-600',
+                        'libraries': 'text-orange-500',
+                        'http': 'text-red-500'
+                    };
+                    activeBtn.classList.add(colorMap[category]);
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            if (winScroll > 300) {
+                scrollBtn.style.display = 'flex';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+        /* {% endverbatim %} */
+    </script>
+</body>
+</html>
